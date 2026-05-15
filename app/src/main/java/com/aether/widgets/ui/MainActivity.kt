@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AetherTheme {
+            AetherTheme(keyManager = keyManager) {
                 AuraApp(keyManager)
             }
         }

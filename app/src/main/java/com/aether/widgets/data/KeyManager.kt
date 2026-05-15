@@ -47,6 +47,14 @@ class KeyManager @Inject constructor(
         return sharedPreferences.getBoolean("onboarding_completed", false)
     }
 
+    fun saveDesignMood(mood: String) {
+        sharedPreferences.edit().putString("design_mood", mood).apply()
+    }
+
+    fun getDesignMood(): String {
+        return sharedPreferences.getString("design_mood", "Balanced") ?: "Balanced"
+    }
+
     fun resetAll() {
         sharedPreferences.edit().clear().apply()
     }

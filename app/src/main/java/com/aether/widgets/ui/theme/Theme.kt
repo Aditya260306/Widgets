@@ -4,8 +4,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.aether.widgets.data.KeyManager
 
 // ─── Shape tokens ─────────────────────────────────────────────────────────────
 val ShapeCard    = RoundedCornerShape(16.dp)
@@ -45,16 +49,32 @@ private val AuraColorScheme = darkColorScheme(
 
 @Composable
 fun AetherTheme(
+    keyManager: KeyManager? = null,
     // AURA is strictly a dark-only design system
     darkTheme: Boolean = true,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(
-        colorScheme = AuraColorScheme,
-        typography = Typography,
-        content = content
-    )
+    val mood = remember(keyManager) {
+        keyManager?.getDesignMood()?.let { 
+            try { AuraDesignMood.valueOf(it.uppercase()) } catch(e: Exception) { AuraDesignMood.BALANCED }
+        } ?: AuraDesignMood.BALANCED
+    }
+
+    // Tonal Layering logic based on Mood
+    val baseColor = when(mood) {
+        AuraDesignMood.MINIMAL -> Color(0xFF000000) // Pure black
+        AuraDesignMood.BALANCED -> AuraBase
+        AuraDesignMood.RICH -> Color(0xFF0C0C14) // Slightly softer indigo-black
+    }
+
+    CompositionLocalProvider(LocalAuraDesignMood provides mood) {
+        MaterialTheme(
+            colorScheme = AuraColorScheme.copy(background = baseColor),
+            typography = Typography,
+            content = content
+        )
+    }
 }
 
 // ─── Ghost border utility ────────────────────────────────────────────────────

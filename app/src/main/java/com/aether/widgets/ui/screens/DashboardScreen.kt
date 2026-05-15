@@ -7,17 +7,19 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -100,92 +102,88 @@ fun DashboardScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = PaddingValues(bottom = 88.dp, top = 8.dp)
                 ) {
-                    items(widgets, key = { it.id }) { widget ->
+                    itemsIndexed(widgets, key = { _, it -> it.id }) { index, widget ->
                         var offsetX by remember { mutableStateOf(0f) }
                         var isRefreshing by remember { mutableStateOf(false) }
                         val animOffset by animateFloatAsState(targetValue = offsetX, label = "swipe_${widget.id}")
 
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .pointerInput(widget.id) {
-                                    detectDragGestures(
-                                        onDragEnd = {
-                                            when {
-                                                offsetX > 100f -> {
-                                                    // Swipe right = refresh
-                                                    offsetX = 0f
-                                                    isRefreshing = true
-                                                }
-                                                offsetX < -100f -> {
-                                                    // Swipe left = remove confirmation
-                                                    offsetX = 0f
-                                                    showRemoveSheet = widget.id
-                                                }
-                                                else -> offsetX = 0f
-                                            }
-                                        },
-                                        onDrag = { change, amount ->
-                                            change.consume()
-                                            offsetX += amount.x
-                                        }
-                                    )
-                                }
-                                .pointerInput(widget.id) {
-                                    detectTapGestures(
-                                        onTap = { onNavigateToDetail(widget.id) },
-                                        onLongPress = { showCardSheet = widget.id }
-                                    )
-                                }
-                        ) {
-                            // Swipe-right refresh reveal
-                            if (offsetX > 0) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .align(Alignment.CenterStart)
-                                        .padding(horizontal = 16.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(Icons.Default.Refresh, null, tint = AuraMint, modifier = Modifier.size(24.dp))
-                                }
-                            }
-                            // Swipe-left remove reveal
-                            if (offsetX < 0) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .align(Alignment.CenterEnd)
-                                        .padding(horizontal = 16.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(Icons.Default.Delete, null, tint = AuraRose, modifier = Modifier.size(24.dp))
-                                }
-                            }
+                        // Entry Animation
+                        var visible by remember { mutableStateOf(false) }
+                        LaunchedEffect(Unit) {
+                            delay(100L * index)
+                            visible = true
+                        }
 
-                            Box(modifier = Modifier.offset(x = (animOffset * 0.3f).dp)) {
-                                if (isRefreshing) {
-                                    LaunchedEffect(Unit) {
-                                        delay(1500)
-                                        isRefreshing = false
-                                    }
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(160.dp)
-                                            .clip(ShapeCard)
-                                            .background(AuraSurface)
-                                            .ghostBorder(16),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        CircularProgressIndicator(
-                                            color = AuraPrimary,
-                                            modifier = Modifier.size(24.dp),
-                                            strokeWidth = 2.dp
+                        AnimatedVisibility(
+                            visible = visible,
+                            enter = slideInVertically(
+                                initialOffsetY = { it / 2 },
+                                animationSpec = spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessLow)
+                            ) + fadeIn()
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .pointerInput(widget.id) {
+                                        detectDragGestures(
+                                            onDragEnd = {
+                                                when {
+                                                    offsetX > 100f -> {
+                                                        offsetX = 0f
+                                                        isRefreshing = true
+                                                    }
+                                                    offsetX < -100f -> {
+                                                        offsetX = 0f
+                                                        showRemoveSheet = widget.id
+                                                    }
+                                                    else -> offsetX = 0f
+                                                }
+                                            },
+                                            onDrag = { change, amount ->
+                                                change.consume()
+                                                offsetX += amount.x
+                                            }
                                         )
                                     }
-                                } else {
-                                    WidgetCard(widget = widget, modifier = Modifier.fillMaxWidth())
+                                    .pointerInput(widget.id) {
+                                        detectTapGestures(
+                                            onTap = { onNavigateToDetail(widget.id) },
+                                            onLongPress = { showCardSheet = widget.id }
+                                        )
+                                    }
+                            ) {
+                                // Swipe reveals
+                                if (offsetX > 0) {
+                                    Box(modifier = Modifier.fillMaxHeight().align(Alignment.CenterStart).padding(horizontal = 16.dp)) {
+                                        Icon(Icons.Default.Refresh, null, tint = AuraMint, modifier = Modifier.size(24.dp))
+                                    }
+                                }
+                                if (offsetX < 0) {
+                                    Box(modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd).padding(horizontal = 16.dp)) {
+                                        Icon(Icons.Default.Delete, null, tint = AuraRose, modifier = Modifier.size(24.dp))
+                                    }
+                                }
+
+                                Box(modifier = Modifier.offset(x = (animOffset * 0.3f).dp)) {
+                                    if (isRefreshing) {
+                                        LaunchedEffect(Unit) {
+                                            delay(1500)
+                                            isRefreshing = false
+                                        }
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(160.dp)
+                                                .clip(ShapeCard)
+                                                .background(AuraSurface)
+                                                .ghostBorder(16),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            CircularProgressIndicator(color = AuraPrimary, modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
+                                        }
+                                    } else {
+                                        WidgetCard(widget = widget, modifier = Modifier.fillMaxWidth())
+                                    }
                                 }
                             }
                         }
@@ -231,7 +229,7 @@ fun DashboardScreen(
                     Spacer(Modifier.height(8.dp))
                     CardSheetAction(Icons.Default.Refresh, "Refresh now") { showCardSheet = null }
                     CardSheetAction(Icons.Default.Edit, "Edit widget") { onNavigateToBuilder(); showCardSheet = null }
-                    CardSheetAction(Icons.Default.OpenInNew, "View detail") { onNavigateToDetail(widgetId); showCardSheet = null }
+                    CardSheetAction(Icons.AutoMirrored.Filled.OpenInNew, "View detail") { onNavigateToDetail(widgetId); showCardSheet = null }
                     CardSheetAction(Icons.Default.Delete, "Remove", color = AuraRose) {
                         widgets.removeAll { it.id == widgetId }
                         showCardSheet = null
@@ -283,7 +281,6 @@ private fun DashboardEmptyState(onAdd: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Dashed border silhouette
         Box(
             modifier = Modifier
                 .fillMaxWidth()
