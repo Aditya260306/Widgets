@@ -478,20 +478,20 @@ private fun MoodCard(title: String, desc: String, icon: ImageVector, isSelected:
     val isPressed by interactionSource.collectIsPressedAsState()
     
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.96f else 1f,
-        animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy, stiffness = Spring.StiffnessLow),
+        targetValue = if (isPressed) 0.94f else 1f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = 1200f),
         label = "scale"
     )
 
     val rotation by animateFloatAsState(
-        targetValue = if (isSelected) 0f else -2f,
-        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessLow),
+        targetValue = if (isSelected) 0f else -3f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = 800f),
         label = "rotation"
     )
 
     val iconRotation by animateFloatAsState(
         targetValue = if (isSelected) 360f else 0f,
-        animationSpec = spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessVeryLow),
+        animationSpec = spring(dampingRatio = 0.5f, stiffness = 400f),
         label = "iconRotation"
     )
 

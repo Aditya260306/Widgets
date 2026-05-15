@@ -5,7 +5,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.Spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,15 +32,18 @@ fun AuraSwitch(
     
     val trackColor by animateColorAsState(
         targetValue = if (checked) AuraPrimary else AuraSurfaceHighest,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        animationSpec = spring(
+            dampingRatio = 0.6f, 
+            stiffness = 800f
+        ),
         label = "trackColor"
     )
     
     val thumbOffset by animateDpAsState(
         targetValue = if (checked) 24.dp else 2.dp,
         animationSpec = spring(
-            dampingRatio = 0.5f, // More jumpy
-            stiffness = Spring.StiffnessMedium
+            dampingRatio = 0.55f, // "Crunchy" snap
+            stiffness = 1000f
         ),
         label = "thumbOffset"
     )
@@ -50,8 +52,11 @@ fun AuraSwitch(
     val safeThumbOffset = thumbOffset.coerceAtLeast(0.dp)
     
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.9f else 1f,
-        animationSpec = spring(stiffness = Spring.StiffnessMedium),
+        targetValue = if (isPressed) 0.88f else 1f,
+        animationSpec = spring(
+            dampingRatio = 0.6f,
+            stiffness = 1200f
+        ),
         label = "scale"
     )
 

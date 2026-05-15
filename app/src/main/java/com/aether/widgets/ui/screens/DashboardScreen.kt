@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -42,6 +43,41 @@ fun DashboardScreen(
     var showRemoveSheet by remember { mutableStateOf<String?>(null) }
     var showCardSheet by remember { mutableStateOf<String?>(null) }
     var showEmptyState by remember { mutableStateOf(FakeData.showEmptyState) }
+
+    // Velocity tracking for cards
+    val lazyListState = rememberLazyListState()
+    var lastOffset by remember { mutableStateOf(0) }
+    var lastIndex by remember { mutableStateOf(0) }
+    var velocity by remember { mutableStateOf(0f) }
+    
+    LaunchedEffect(lazyListState) {
+        snapshotFlow { 
+            lazyListState.firstVisibleItemScrollOffset to lazyListState.firstVisibleItemIndex 
+        }.collect { (currentOffset, currentIndex) ->
+            // Simple velocity estimation: change in pixels since last frame/update
+            val delta = if (currentIndex == lastIndex) {
+                (currentOffset - lastOffset).toFloat()
+            } else {
+                // Index changed, calculate approximate jump (assuming average item height)
+                if (currentIndex > lastIndex) 500f else -500f
+            }
+            
+            velocity = (velocity * 0.7f) + (delta * 0.3f)
+            lastOffset = currentOffset
+            lastIndex = currentIndex
+        }
+    }
+    
+    // Auto-decay velocity when not scrolling
+    if (velocity != 0f && !lazyListState.isScrollInProgress) {
+        LaunchedEffect(Unit) {
+            while (velocity != 0f) {
+                delay(16)
+                velocity *= 0.8f
+                if (Math.abs(velocity) < 0.1f) velocity = 0f
+            }
+        }
+    }
 
     // Swipe-up to fidget detector
     var dragStartY by remember { mutableStateOf(0f) }
@@ -96,6 +132,7 @@ fun DashboardScreen(
                 DashboardEmptyState(onAdd = onNavigateToBuilder)
             } else {
                 LazyColumn(
+                    state = lazyListState,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
@@ -106,6 +143,18 @@ fun DashboardScreen(
                         var offsetX by remember { mutableStateOf(0f) }
                         var isRefreshing by remember { mutableStateOf(false) }
                         val animOffset by animateFloatAsState(targetValue = offsetX, label = "swipe_${widget.id}")
+
+                        // Velocity-based effects
+                        val cardScale by animateFloatAsState(
+                            targetValue = (1f - (Math.abs(velocity) / 2000f)).coerceIn(0.85f, 1f),
+                            animationSpec = spring(stiffness = Spring.StiffnessLow),
+                            label = "velocityScale"
+                        )
+                        val cardTilt by animateFloatAsState(
+                            targetValue = (velocity / 200f).coerceIn(-5f, 5f),
+                            animationSpec = spring(stiffness = Spring.StiffnessLow),
+                            label = "velocityTilt"
+                        )
 
                         // Entry Animation
                         var visible by remember { mutableStateOf(false) }
@@ -124,6 +173,12 @@ fun DashboardScreen(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .graphicsLayer {
+                                        scaleX = cardScale
+                                        scaleY = cardScale
+                                        rotationX = cardTilt
+                                        cameraDistance = 8 * density
+                                    }
                                     .pointerInput(widget.id) {
                                         detectDragGestures(
                                             onDragEnd = {
