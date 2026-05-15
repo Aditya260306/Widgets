@@ -74,18 +74,44 @@ fun OnboardingScreen(
                 userScrollEnabled = false,
                 beyondBoundsPageCount = 1
             ) { page ->
-                when (page) {
-                    0 -> OnboardingWelcomeStep(onBegin = { scope.launch { pagerState.animateScrollToPage(1) } })
-                    1 -> OnboardingApiKeyStep(
-                        keyManager = keyManager,
-                        onContinue = { scope.launch { pagerState.animateScrollToPage(2) } }
-                    )
-                    2 -> OnboardingPermissionsStep(onContinue = { scope.launch { pagerState.animateScrollToPage(3) } })
-                    3 -> OnboardingMoodStep(
-                        keyManager = keyManager,
-                        onContinue = { scope.launch { pagerState.animateScrollToPage(4) } }
-                    )
-                    4 -> OnboardingFirstWidgetStep(onBuild = onComplete, onSkip = onComplete)
+                // Calculate page transformation
+                val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+                val scale = lerp(
+                    start = 0.85f,
+                    stop = 1f,
+                    fraction = 1f - Math.abs(pageOffset).coerceIn(0f, 1f)
+                )
+                val alpha = lerp(
+                    start = 0.5f,
+                    stop = 1f,
+                    fraction = 1f - Math.abs(pageOffset).coerceIn(0f, 1f)
+                )
+                
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                            this.alpha = alpha
+                            
+                            // Parallax effect: items on the edges move slower
+                            translationX = pageOffset * size.width * 0.1f
+                        }
+                ) {
+                    when (page) {
+                        0 -> OnboardingWelcomeStep(onBegin = { scope.launch { pagerState.animateScrollToPage(1) } })
+                        1 -> OnboardingApiKeyStep(
+                            keyManager = keyManager,
+                            onContinue = { scope.launch { pagerState.animateScrollToPage(2) } }
+                        )
+                        2 -> OnboardingPermissionsStep(onContinue = { scope.launch { pagerState.animateScrollToPage(3) } })
+                        3 -> OnboardingMoodStep(
+                            keyManager = keyManager,
+                            onContinue = { scope.launch { pagerState.animateScrollToPage(4) } }
+                        )
+                        4 -> OnboardingFirstWidgetStep(onBuild = onComplete, onSkip = onComplete)
+                    }
                 }
             }
         }
