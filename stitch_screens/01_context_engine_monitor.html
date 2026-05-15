@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURA Context Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#3e2e00",
+                        "inverse-primary": "#613de0",
+                        "on-tertiary-fixed": "#002117",
+                        "tertiary": "#28dfb3",
+                        "inverse-on-surface": "#303036",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#484555",
+                        "tertiary-fixed": "#55fcce",
+                        "primary-fixed-dim": "#cabeff",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#4918c8",
+                        "on-secondary-container": "#3c2c00",
+                        "on-primary-container": "#2b0088",
+                        "surface": "#131318",
+                        "secondary": "#efc13e",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#cabeff",
+                        "secondary-container": "#ba9000",
+                        "on-tertiary-fixed-variant": "#00513e",
+                        "surface-container-lowest": "#0e0e13",
+                        "on-primary": "#32009a",
+                        "outline": "#938ea1",
+                        "surface-dim": "#131318",
+                        "on-surface-variant": "#c9c4d8",
+                        "inverse-surface": "#e4e1e9",
+                        "surface-container-low": "#1b1b20",
+                        "primary-container": "#947dff",
+                        "surface-container-highest": "#35343a",
+                        "primary": "#cabeff",
+                        "on-secondary-fixed-variant": "#594400",
+                        "secondary-fixed-dim": "#efc13e",
+                        "on-surface": "#e4e1e9",
+                        "primary-fixed": "#e6deff",
+                        "surface-variant": "#35343a",
+                        "surface-bright": "#39383e",
+                        "on-tertiary-container": "#003024",
+                        "on-background": "#e4e1e9",
+                        "background": "#131318",
+                        "on-tertiary": "#00382a",
+                        "on-secondary-fixed": "#241a00",
+                        "tertiary-fixed-dim": "#28dfb3",
+                        "tertiary-container": "#00a481",
+                        "on-primary-fixed": "#1c0062",
+                        "surface-container-high": "#2a292f",
+                        "secondary-fixed": "#ffdf94",
+                        "surface-container": "#1f1f25",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max-width": "1200px",
+                        "margin-desktop": "64px",
+                        "gutter": "16px",
+                        "margin-mobile": "24px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Noto Serif"],
+                        "body-lg": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"],
+                        "headline-lg-mobile": ["Noto Serif"],
+                        "label-md": ["Noto Serif"],
+                        "label-sm": ["Noto Serif"],
+                        "headline-lg": ["Noto Serif"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Pulse Animation for Live Dot */
+        @keyframes pulse-opacity {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-opacity {
+            animation: pulse-opacity 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#0A0A0F] text-on-surface antialiased min-h-screen flex flex-col items-center">
+<div class="w-full max-w-md w-full relative h-full flex flex-col bg-[#0A0A0F] overflow-hidden sm:border sm:border-outline-variant sm:my-8 sm:rounded-[32px] sm:shadow-2xl">
+<!-- Progress Bar at very top -->
+<div class="h-[1px] w-full bg-surface-container">
+<div class="h-full bg-tertiary w-3/4"></div>
+</div>
+<!-- TopAppBar (Customized based on prompt, aligning with JSON style_ commands where applicable) -->
+<header class="flex justify-between items-center px-margin-mobile w-full z-50 fixed top-[1px] sm:absolute sm:top-[1px] h-[48px] bg-[#0A0A0F] bg-opacity-90 backdrop-blur-md max-w-md">
+<button class="text-on-surface hover:bg-surface-container transition-colors rounded-full p-2 -ml-2 flex items-center justify-center active:scale-95 duration-150">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+<h1 class="font-headline-md text-[18px] font-semibold text-on-surface tracking-wide">Context Engine</h1>
+<div class="flex items-center gap-2 -mr-1">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse-opacity"></div>
+<span class="font-data-mono text-[12px] text-tertiary uppercase tracking-widest">Live</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto w-full pt-[64px] px-margin-mobile pb-24 space-y-6">
+<!-- Context Tiles Grid -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Tile 1: Time (Full Width) -->
+<div class="col-span-2 bg-[#0F0F1A] rounded-xl p-[16px] flex justify-between items-start border border-surface-container-high/50">
+<div class="flex flex-col">
+<span class="font-data-mono text-[28px] leading-none text-on-surface mb-1">09:42</span>
+<span class="font-body-md text-[14px] text-on-surface-variant">Thursday, 15 May</span>
+</div>
+<div class="px-2 py-1 rounded border border-secondary text-secondary font-label-sm text-[10px] uppercase tracking-wider bg-secondary/10">
+                        Morning
+                    </div>
+</div>
+<!-- Tile 2: Location (Half Width) -->
+<div class="col-span-1 bg-[#0F0F1A] rounded-xl p-[16px] flex flex-col justify-between border border-surface-container-high/50 min-h-[120px]">
+<div>
+<h2 class="font-headline-md text-[20px] leading-tight text-on-surface mb-1">Delhi</h2>
+<p class="font-body-md text-[13px] text-outline">Gharoli</p>
+</div>
+<div class="self-start mt-4 px-2 py-1 rounded bg-tertiary/10 text-tertiary font-label-sm text-[10px] uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="my_location">my_location</span> Precise
+                    </div>
+</div>
+<!-- Tile 3: Battery (Half Width) -->
+<div class="col-span-1 bg-[#0F0F1A] rounded-xl p-[16px] flex flex-col justify-between items-center border border-surface-container-high/50 min-h-[120px] relative">
+<!-- Minimal Arc Placeholder via CSS Borders -->
+<div class="absolute top-[20px] w-16 h-16 rounded-full border-2 border-surface-container"></div>
+<div class="absolute top-[20px] w-16 h-16 rounded-full border-2 border-t-tertiary border-r-tertiary border-b-tertiary border-l-transparent transform rotate-45"></div>
+<div class="z-10 mt-[26px]">
+<span class="font-data-mono text-[24px] text-on-surface">78%</span>
+</div>
+<div class="mt-auto px-2 py-1 rounded bg-tertiary/10 text-tertiary font-label-sm text-[10px] uppercase tracking-wider w-full text-center flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="bolt">bolt</span> Charging
+                    </div>
+</div>
+<!-- Tile 4: Connectivity (Half Width) -->
+<div class="col-span-1 bg-[#0F0F1A] rounded-xl p-[16px] flex flex-col justify-between border border-surface-container-high/50 min-h-[120px]">
+<div class="flex items-center gap-2 text-tertiary mb-2">
+<span class="material-symbols-outlined text-[24px]" data-icon="wifi">wifi</span>
+<span class="font-headline-md text-[18px]">WiFi</span>
+</div>
+<div class="flex items-end gap-1 mt-auto h-6">
+<div class="w-1.5 h-1/4 bg-tertiary rounded-t-sm"></div>
+<div class="w-1.5 h-2/4 bg-tertiary rounded-t-sm"></div>
+<div class="w-1.5 h-3/4 bg-tertiary rounded-t-sm"></div>
+<div class="w-1.5 h-full bg-surface-container rounded-t-sm"></div>
+</div>
+</div>
+<!-- Tile 5: Weather (Half Width) -->
+<div class="col-span-1 bg-[#0F0F1A] rounded-xl p-[16px] flex flex-col justify-between border border-surface-container-high/50 min-h-[120px]">
+<div class="flex items-start justify-between">
+<span class="font-data-mono text-[22px] text-on-surface">28°C</span>
+<span class="material-symbols-outlined text-[20px] text-secondary" data-icon="partly_cloudy_day">partly_cloudy_day</span>
+</div>
+<div class="mt-2">
+<p class="font-body-md text-[14px] text-on-surface">Partly Cloudy</p>
+<p class="font-body-md text-[12px] text-outline mt-1">Feels like 30°C</p>
+</div>
+</div>
+<!-- Tile 6: Next Event (Full Width) -->
+<div class="col-span-2 bg-[#0F0F1A] rounded-xl p-[16px] flex items-center justify-between border border-surface-container-high/50">
+<div class="flex items-center gap-3">
+<div class="w-[4px] h-[32px] bg-primary rounded-full"></div>
+<div>
+<h3 class="font-headline-md text-[16px] text-on-surface">Team Standup</h3>
+<p class="font-body-md text-[12px] text-outline flex items-center gap-1 mt-0.5"><span class="material-symbols-outlined text-[12px]" data-icon="video_camera_front">video_camera_front</span> Google Meet</p>
+</div>
+</div>
+<div class="font-data-mono text-[16px] text-primary">
+                        in 18m
+                    </div>
+</div>
+<!-- Tile 7: Focus Session (Full Width) -->
+<div class="col-span-2 bg-[#0F0F1A] rounded-xl p-[16px] flex flex-col border border-surface-container-high/50 relative overflow-hidden">
+<!-- Subtle gradient background to imply 'focus' mode -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-start z-10">
+<div class="px-2 py-1 rounded bg-primary/20 text-primary font-label-sm text-[10px] uppercase tracking-wider border border-primary/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="do_not_disturb_on">do_not_disturb_on</span> Active Focus
+                        </div>
+<span class="font-data-mono text-[20px] text-primary">01:24:00</span>
+</div>
+<p class="font-body-md text-[12px] text-outline mt-4 z-10">2 widgets currently suppressed to maintain context.</p>
+</div>
+</div>
+<!-- Widget Orchestration List -->
+<div class="mt-8 mb-6">
+<h3 class="font-headline-md text-[16px] text-on-surface-variant mb-4 px-1">Widget Orchestration</h3>
+<div class="bg-[#0F0F1A] rounded-xl border border-surface-container-high/50 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<tbody>
+<!-- Row 1 -->
+<tr class="border-b border-surface-container/50 last:border-0">
+<td class="py-3 px-4 font-body-md text-[14px] text-on-surface">Weather Daily</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[10px] font-label-sm uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Active</span>
+</td>
+<td class="py-3 px-4 font-body-md text-[12px] text-outline text-right">—</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-container/50 last:border-0 bg-surface-container-low/30">
+<td class="py-3 px-4 font-body-md text-[14px] text-outline">News Brief</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[10px] font-label-sm uppercase tracking-wider bg-surface-variant text-on-surface-variant border border-outline-variant/30">Suppressed</span>
+</td>
+<td class="py-3 px-4 font-body-md text-[12px] text-outline text-right">Focus Mode</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-surface-container/50 last:border-0">
+<td class="py-3 px-4 font-body-md text-[14px] text-on-surface">Commute</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-[10px] font-label-sm uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">Active</span>
+</td>
+<td class="py-3 px-4 font-body-md text-[12px] text-outline text-right">—</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</div>
+</body></html>

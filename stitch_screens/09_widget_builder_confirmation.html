@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURA Widget Builder - Confirmation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#ffdf94",
+                    "on-primary-fixed-variant": "#4918c8",
+                    "surface": "#131318",
+                    "on-tertiary-fixed": "#002117",
+                    "surface-variant": "#35343a",
+                    "on-tertiary-fixed-variant": "#00513e",
+                    "surface-container-low": "#1b1b20",
+                    "on-background": "#e4e1e9",
+                    "background": "#131318",
+                    "on-surface-variant": "#c9c4d8",
+                    "on-secondary": "#3e2e00",
+                    "error-container": "#93000a",
+                    "surface-container": "#1f1f25",
+                    "surface-bright": "#39383e",
+                    "surface-container-high": "#2a292f",
+                    "on-tertiary-container": "#003024",
+                    "tertiary-container": "#00a481",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error": "#690005",
+                    "inverse-surface": "#e4e1e9",
+                    "on-primary-fixed": "#1c0062",
+                    "secondary-container": "#ba9000",
+                    "on-surface": "#e4e1e9",
+                    "inverse-primary": "#613de0",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0e0e13",
+                    "primary-container": "#947dff",
+                    "on-secondary-fixed-variant": "#594400",
+                    "on-secondary-container": "#3c2c00",
+                    "on-tertiary": "#00382a",
+                    "primary-fixed-dim": "#cabeff",
+                    "secondary": "#efc13e",
+                    "on-primary": "#32009a",
+                    "surface-tint": "#cabeff",
+                    "surface-container-highest": "#35343a",
+                    "inverse-on-surface": "#303036",
+                    "tertiary-fixed-dim": "#28dfb3",
+                    "tertiary-fixed": "#55fcce",
+                    "surface-dim": "#131318",
+                    "primary": "#cabeff",
+                    "tertiary": "#28dfb3",
+                    "on-primary-container": "#2b0088",
+                    "outline-variant": "#484555",
+                    "outline": "#938ea1",
+                    "secondary-fixed-dim": "#efc13e",
+                    "primary-fixed": "#e6deff",
+                    "error": "#ffb4ab"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "24px",
+                    "container-max-width": "1200px",
+                    "unit": "8px",
+                    "gutter": "16px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Noto Serif"
+                    ],
+                    "headline-lg": [
+                            "Noto Serif"
+                    ],
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ],
+                    "label-sm": [
+                            "Noto Serif"
+                    ],
+                    "body-md": [
+                            "Noto Serif"
+                    ],
+                    "label-md": [
+                            "Noto Serif"
+                    ],
+                    "headline-lg-mobile": [
+                            "Noto Serif"
+                    ],
+                    "headline-md": [
+                            "Noto Serif"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "data-mono": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col items-center justify-center font-body-md">
+<!-- Main Container -->
+<main class="w-full max-w-md px-margin-mobile flex flex-col items-center gap-12 py-12">
+<!-- Widget Preview Canvas -->
+<section class="w-full flex flex-col items-center gap-6">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Preview</h2>
+<!-- Glassmorphism Widget Preview -->
+<div class="relative w-full aspect-[2/1] rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.05)] bg-surface-container-high flex flex-col p-6">
+<!-- Abstract Atmospheric Background for Weather -->
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background: linear-gradient(135deg, rgba(202,190,255,0.2) 0%, rgba(19,19,24,0) 100%);"></div>
+<div class="relative z-10 flex justify-between items-start w-full h-full">
+<div class="flex flex-col gap-2">
+<span class="font-headline-md text-headline-md text-primary">72°</span>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">partly_cloudy_day</span>
+<span class="font-label-md text-label-md">Mostly Clear</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Seattle, WA</span>
+<div class="flex gap-4 mt-2">
+<div class="flex flex-col items-center">
+<span class="font-data-mono text-data-mono text-on-surface-variant">10 AM</span>
+<span class="font-label-md text-label-md text-on-surface">73°</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-data-mono text-data-mono text-on-surface-variant">11 AM</span>
+<span class="font-label-md text-label-md text-on-surface">75°</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-data-mono text-data-mono text-on-surface-variant">12 PM</span>
+<span class="font-label-md text-label-md text-on-surface">76°</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Spec Summary Card -->
+<section class="w-full bg-surface-container rounded-[16px] p-6 flex flex-col gap-8">
+<!-- Editable Title -->
+<div class="flex justify-between items-center w-full border-b border-surface-bright pb-4">
+<input class="bg-transparent border-none outline-none font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface w-full focus:ring-0 p-0 placeholder-on-surface-variant/50 underline decoration-surface-bright underline-offset-8" spellcheck="false" type="text" value="Daily Weather Commute"/>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex-shrink-0">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+<!-- Specs Grid -->
+<div class="grid grid-cols-2 gap-y-6 gap-x-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Type</span>
+<span class="font-body-md text-body-md text-on-surface">Weather</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Size</span>
+<span class="font-data-mono text-data-mono text-on-surface">4x2 Standard</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Refresh Rate</span>
+<span class="font-data-mono text-data-mono text-on-surface">1h</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Offline Mode</span>
+<span class="font-body-md text-body-md text-on-surface">Cache Last</span>
+</div>
+</div>
+</section>
+<!-- Actions -->
+<section class="w-full flex flex-col items-center gap-6 mt-4">
+<button class="w-full h-[52px] bg-primary text-on-primary font-label-md text-label-md rounded-lg flex items-center justify-center transition-transform duration-200 hover:scale-[0.98] active:scale-[0.95]">
+                Add to AURA
+            </button>
+<button class="text-error font-label-sm text-label-sm uppercase tracking-widest hover:text-error-container transition-colors">
+                Discard
+            </button>
+</section>
+</main>
+</body></html>

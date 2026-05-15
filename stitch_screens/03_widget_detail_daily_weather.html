@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURA - Widget Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "tertiary-fixed-dim": "#28dfb3",
+                  "on-primary": "#32009a",
+                  "inverse-surface": "#e4e1e9",
+                  "primary-fixed-dim": "#cabeff",
+                  "on-secondary-fixed": "#241a00",
+                  "tertiary": "#28dfb3",
+                  "tertiary-container": "#00a481",
+                  "on-tertiary-fixed-variant": "#00513e",
+                  "on-surface-variant": "#c9c4d8",
+                  "on-surface": "#e4e1e9",
+                  "surface-dim": "#131318",
+                  "on-secondary-fixed-variant": "#594400",
+                  "surface-tint": "#cabeff",
+                  "secondary": "#efc13e",
+                  "primary-container": "#947dff",
+                  "surface-container-lowest": "#0e0e13",
+                  "on-tertiary": "#00382a",
+                  "secondary-fixed-dim": "#efc13e",
+                  "on-tertiary-fixed": "#002117",
+                  "primary": "#cabeff",
+                  "error-container": "#93000a",
+                  "surface": "#131318",
+                  "on-background": "#e4e1e9",
+                  "on-secondary": "#3e2e00",
+                  "on-primary-container": "#2b0088",
+                  "secondary-container": "#ba9000",
+                  "surface-container-highest": "#35343a",
+                  "on-error-container": "#ffdad6",
+                  "inverse-primary": "#613de0",
+                  "on-primary-fixed": "#1c0062",
+                  "inverse-on-surface": "#303036",
+                  "surface-container": "#1f1f25",
+                  "primary-fixed": "#e6deff",
+                  "surface-variant": "#35343a",
+                  "on-secondary-container": "#3c2c00",
+                  "background": "#131318",
+                  "surface-bright": "#39383e",
+                  "surface-container-low": "#1b1b20",
+                  "on-tertiary-container": "#003024",
+                  "surface-container-high": "#2a292f",
+                  "tertiary-fixed": "#55fcce",
+                  "error": "#ffb4ab",
+                  "on-primary-fixed-variant": "#4918c8",
+                  "secondary-fixed": "#ffdf94",
+                  "outline": "#938ea1",
+                  "on-error": "#690005",
+                  "outline-variant": "#484555"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "unit": "8px",
+                  "margin-mobile": "24px",
+                  "margin-desktop": "64px",
+                  "container-max-width": "1200px",
+                  "gutter": "16px"
+          },
+          "fontFamily": {
+                  "body-md": ["Noto Serif"],
+                  "label-md": ["Noto Serif"],
+                  "headline-md": ["Noto Serif"],
+                  "label-sm": ["Noto Serif"],
+                  "headline-lg-mobile": ["Noto Serif"],
+                  "data-mono": ["JetBrains Mono"],
+                  "headline-lg": ["Noto Serif"],
+                  "body-lg": ["Noto Serif"]
+          },
+          "fontSize": {
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                  "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                  "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                  "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                  "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body { background-color: #0A0A0F; color: #e4e1e9; }
+    /* Hide scrollbar for clean aesthetic */
+    ::-webkit-scrollbar { display: none; }
+    * { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar (Transactional context, hides main shell nav) -->
+<header class="fixed top-0 w-full h-[48px] flex justify-between items-center px-margin-mobile z-50 bg-[#0A0A0F]/80 backdrop-blur-md">
+<button class="w-10 h-10 flex items-center justify-start text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back" data-weight="regular">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold tracking-tight text-on-surface absolute left-1/2 -translate-x-1/2">Daily Weather</h1>
+<div class="flex items-center space-x-4">
+<button class="text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit" data-weight="regular">edit</span>
+</button>
+<button class="text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="refresh" data-weight="regular">refresh</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 pt-[80px] pb-margin-mobile px-margin-mobile flex flex-col items-center">
+<div class="w-full max-w-container-max-width space-y-12">
+<!-- Hero Zone: Widget Preview -->
+<section class="flex flex-col items-center space-y-4">
+<!-- Widget Card -->
+<div class="w-full max-w-sm bg-[#0F0F1A] rounded-[16px] p-6 flex flex-col items-center border border-surface-container-highest">
+<div class="flex items-center justify-center space-x-2 text-primary-container mb-2">
+<span class="material-symbols-outlined text-4xl" data-icon="partly_cloudy_day" data-weight="fill" style="font-variation-settings: 'FILL' 1;">partly_cloudy_day</span>
+</div>
+<h2 class="font-headline-lg-mobile text-[64px] leading-none font-bold text-on-surface tracking-tighter mb-1">72°</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant font-medium">Seattle, WA</p>
+<p class="font-label-md text-label-md text-primary mt-1 mb-8 uppercase tracking-widest">Mostly Clear</p>
+<!-- 3-Hour Strip -->
+<div class="w-full flex justify-between px-4 pt-6 border-t border-surface-container-high">
+<div class="flex flex-col items-center space-y-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">10AM</span>
+<span class="material-symbols-outlined text-on-surface text-lg" data-icon="sunny">sunny</span>
+<span class="font-data-mono text-data-mono text-on-surface">73°</span>
+</div>
+<div class="flex flex-col items-center space-y-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">11AM</span>
+<span class="material-symbols-outlined text-primary-container text-lg" data-icon="partly_cloudy_day">partly_cloudy_day</span>
+<span class="font-data-mono text-data-mono text-on-surface">75°</span>
+</div>
+<div class="flex flex-col items-center space-y-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">12PM</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="cloud">cloud</span>
+<span class="font-data-mono text-data-mono text-on-surface">76°</span>
+</div>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant/60">Last updated 14 minutes ago</p>
+</section>
+<!-- Metadata Section (Bento style grid rows) -->
+<section class="w-full max-w-2xl mx-auto space-y-px bg-surface-container-high rounded-xl overflow-hidden border border-surface-container-highest">
+<!-- Row 1 -->
+<div class="bg-surface-dim p-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Widget Type</span>
+<div class="px-3 py-1 bg-primary-container/10 border border-primary-container/20 rounded-full">
+<span class="font-label-sm text-label-sm text-primary-container uppercase tracking-wider">WEATHER</span>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="bg-surface-dim p-4 flex flex-col md:flex-row md:items-start justify-between gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant pt-1">Data Sources</span>
+<div class="flex flex-col space-y-2 md:items-end">
+<div class="flex items-center space-x-2">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="font-body-md text-body-md text-on-surface">OpenWeather</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="font-body-md text-body-md text-on-surface">System Location</span>
+</div>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="bg-surface-dim p-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Refresh Schedule</span>
+<span class="font-body-md text-body-md text-on-surface text-right">Every 30 minutes, 07:00 – 22:00</span>
+</div>
+<!-- Row 4 -->
+<div class="bg-surface-dim p-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">AI Calls (7 days)</span>
+<div class="flex items-center space-x-4">
+<!-- Sparkline placeholder -->
+<div class="flex items-end space-x-1 h-6">
+<div class="w-1.5 bg-primary-container/40 h-2 rounded-t-sm"></div>
+<div class="w-1.5 bg-primary-container/60 h-3 rounded-t-sm"></div>
+<div class="w-1.5 bg-primary-container/80 h-5 rounded-t-sm"></div>
+<div class="w-1.5 bg-primary-container h-6 rounded-t-sm"></div>
+<div class="w-1.5 bg-primary-container/70 h-4 rounded-t-sm"></div>
+<div class="w-1.5 bg-primary-container/50 h-3 rounded-t-sm"></div>
+<div class="w-1.5 bg-primary-container/90 h-5 rounded-t-sm"></div>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface">42 calls</span>
+</div>
+</div>
+<!-- Row 5 -->
+<div class="bg-surface-dim p-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Offline Mode</span>
+<div class="px-3 py-1 bg-surface-container-highest border border-outline-variant rounded-full">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cache Last</span>
+</div>
+</div>
+</section>
+<!-- Content History Section -->
+<section class="w-full max-w-2xl mx-auto space-y-6 pt-4">
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">Content History — last 10 items</h3>
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="bg-surface p-4 rounded-lg border border-surface-container-highest hover:bg-surface-bright transition-colors cursor-pointer">
+<div class="flex justify-between items-start gap-4 mb-2">
+<span class="font-data-mono text-data-mono text-on-surface-variant whitespace-nowrap pt-1">08:30 AM</span>
+<div class="px-2 py-0.5 bg-surface-container-highest rounded border border-outline-variant shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Seen</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface">"Clear skies expected for your commute. No umbrella needed."</p>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface p-4 rounded-lg border border-surface-container-highest hover:bg-surface-bright transition-colors cursor-pointer relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<div class="flex justify-between items-start gap-4 mb-2 pl-2">
+<span class="font-data-mono text-data-mono text-on-surface-variant whitespace-nowrap pt-1">07:45 AM</span>
+<div class="px-2 py-0.5 bg-tertiary-container/20 rounded border border-tertiary/30 shrink-0">
+<span class="font-label-sm text-label-sm text-tertiary">Expanded</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface pl-2">"Slightly cooler morning than yesterday. Layering recommended."</p>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface p-4 rounded-lg border border-surface-container-highest hover:bg-surface-bright transition-colors cursor-pointer">
+<div class="flex justify-between items-start gap-4 mb-2">
+<span class="font-data-mono text-data-mono text-on-surface-variant whitespace-nowrap pt-1">07:00 AM</span>
+<div class="px-2 py-0.5 bg-surface-container-highest rounded border border-outline-variant shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Seen</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface">"Morning briefing: 64° and still. Perfect for a walk."</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

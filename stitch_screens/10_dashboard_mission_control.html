@@ -1,0 +1,204 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AURA Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#484555",
+                        "secondary": "#efc13e",
+                        "tertiary-fixed": "#55fcce",
+                        "on-background": "#e4e1e9",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#35343a",
+                        "surface-bright": "#39383e",
+                        "tertiary-container": "#00a481",
+                        "surface-container-highest": "#35343a",
+                        "surface-container-high": "#2a292f",
+                        "on-tertiary-fixed-variant": "#00513e",
+                        "surface-container": "#1f1f25",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#e6deff",
+                        "on-secondary-container": "#3c2c00",
+                        "on-primary": "#32009a",
+                        "background": "#131318",
+                        "surface-dim": "#131318",
+                        "surface-container-low": "#1b1b20",
+                        "surface": "#131318",
+                        "on-error": "#690005",
+                        "on-primary-container": "#2b0088",
+                        "on-secondary-fixed-variant": "#594400",
+                        "on-secondary-fixed": "#241a00",
+                        "on-tertiary": "#00382a",
+                        "tertiary": "#28dfb3",
+                        "on-surface-variant": "#c9c4d8",
+                        "secondary-fixed-dim": "#efc13e",
+                        "surface-container-lowest": "#0e0e13",
+                        "secondary-container": "#ba9000",
+                        "primary": "#cabeff",
+                        "on-primary-fixed": "#1c0062",
+                        "inverse-on-surface": "#303036",
+                        "secondary-fixed": "#ffdf94",
+                        "inverse-primary": "#613de0",
+                        "surface-tint": "#cabeff",
+                        "outline": "#938ea1",
+                        "on-primary-fixed-variant": "#4918c8",
+                        "on-tertiary-fixed": "#002117",
+                        "on-tertiary-container": "#003024",
+                        "tertiary-fixed-dim": "#28dfb3",
+                        "on-surface": "#e4e1e9",
+                        "inverse-surface": "#e4e1e9",
+                        "error-container": "#93000a",
+                        "primary-container": "#947dff",
+                        "primary-fixed-dim": "#cabeff",
+                        "on-secondary": "#3e2e00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "24px",
+                        "gutter": "16px",
+                        "container-max-width": "1200px",
+                        "unit": "8px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-md": ["Noto Serif"],
+                        "label-md": ["Noto Serif"],
+                        "headline-lg-mobile": ["Noto Serif"],
+                        "body-lg": ["Noto Serif"],
+                        "headline-lg": ["Noto Serif"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #131318; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  <style data-stitch-cursor=""></style><style data-stitch-scroll-lock=""></style></head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 border-b border-outline-variant/10 bg-background dark:bg-background z-40 fixed w-full top-0">
+<div class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-container-max-width mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary cursor-pointer hover:text-primary transition-colors duration-300" style="font-variation-settings: &quot;FILL&quot; 1;">bubble_chart</span>
+<span class="text-headline-lg-mobile font-headline-lg-mobile tracking-tighter text-on-surface dark:text-on-surface uppercase font-bold text-primary dark:text-primary">AURA</span>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">grid_view</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">adjust</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">analytics</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">person</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-mono text-data-mono text-on-surface-variant">47 / 200</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors duration-300">settings</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max-width mx-auto px-margin-mobile mt-[88px] mb-[88px] md:mb-12 flex flex-col gap-6">
+<!-- Bento Grid Layout for Dashboard Widgets -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Widget Card 1 (Fresh - Weather) -->
+<div class="bg-surface-container rounded-[16px] p-[16px] h-[160px] border border-primary/40 flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex flex-col">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">72°</span>
+<span class="font-body-md text-body-md text-on-surface-variant mt-1">Mostly Clear</span>
+</div>
+<span class="material-symbols-outlined text-tertiary text-4xl" style="font-variation-settings: &quot;FILL&quot; 0;">partly_cloudy_day</span>
+</div>
+<div class="flex items-center gap-2 z-10">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">location_on</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Seattle, WA</span>
+</div>
+</div>
+<!-- Widget Card 2 (Default - News) -->
+<div class="bg-surface-container rounded-[16px] p-[16px] h-[160px] md:h-auto flex flex-col justify-center gap-3">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Briefing</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-on-surface line-clamp-3 leading-snug">AI Regulation updates: Global summit outlines new transparency mandates for deep learning models.</h3>
+<span class="font-data-mono text-data-mono text-on-surface-variant/60 text-xs mt-auto">2 hours ago</span>
+</div>
+<!-- Widget Card 3 (Error - Habit) -->
+<div class="bg-surface-container rounded-[16px] p-[16px] h-[240px] md:col-span-2 lg:col-span-1 flex flex-col relative overflow-hidden">
+<div class="absolute top-4 right-4 w-[6px] h-[6px] rounded-full bg-error z-20"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-error/5 to-transparent pointer-events-none z-0"></div>
+<div class="flex items-center gap-3 mb-6 z-10">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface">self_improvement</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface tracking-wide">Meditation</span>
+</div>
+<div class="flex-1 flex flex-col justify-center items-center text-center z-10">
+<span class="material-symbols-outlined text-error text-5xl mb-2 opacity-80" style="font-variation-settings: &quot;FILL&quot; 0;">broken_image</span>
+<span class="font-headline-md text-headline-md text-on-surface">Streak Broken</span>
+<span class="font-body-md text-body-md text-error mt-2">5 days lost. Tap to restart.</span>
+</div>
+</div>
+<!-- Widget Card 4 (Stale - Log) -->
+<div class="bg-surface-container-low rounded-[16px] p-[16px] h-[160px] md:col-span-1 lg:col-span-2 flex flex-col justify-between opacity-80">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline text-sm">directions_walk</span>
+</div>
+<span class="font-label-md text-label-md text-outline">Morning Walk Logged</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 pl-11">
+<span class="font-body-lg text-body-lg text-on-surface-variant">4.2 mi • 45 min</span>
+<span class="font-body-md text-body-md text-outline">Pace: 10:42 /mi</span>
+</div>
+<div class="flex items-center justify-end gap-1.5 mt-auto">
+<span class="material-symbols-outlined text-outline text-[16px]">schedule</span>
+<span class="font-data-mono text-data-mono text-outline text-xs">3h ago</span>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed md:bottom-[40px] right-margin-mobile w-[56px] h-[56px] rounded-full bg-primary flex items-center justify-center shadow-none hover:bg-primary/90 transition-colors z-50 group bottom-[32px]">
+<span class="material-symbols-outlined text-on-primary text-3xl group-hover:rotate-90 transition-transform duration-300">add</span>
+</button>
+<!-- BottomNavBar (Mobile Only) -->
+
+
+
+</body></html>

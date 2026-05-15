@@ -1,0 +1,71 @@
+# Android / Gradle
+.gradle
+/build
+/app/build
+/captures
+*.iml
+.externalNativeBuild
+.cxx
+local.properties
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iws
+*.ipr
+/out
+.shelf
+.navigation
+assetWizardSettings.xml
+
+# Node / JS
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# Secrets & Environment
+.env
+.env.local
+.env.*.local
+*.jks
+*.keystore
+google-services.json
+secrets.xml
+*.p12
+
+# OS Specific
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
+~$*
+
+# Logs & Temp
+*.log
+/temp
+/tmp
+/bin
+/gen
+*.bak
+*.tmp
+
+# Python (seen in directory)
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+
+# Project Specific (AURA)
+java_pid*.hprof
+AURA_PRD_v1.0_extracted.txt
+AURA_UIUX_Design_v1.0_extracted.txt
+AURA_Master_Design_Brief_v1.0_extracted.txt
+AURA_Implementation_Handoff_v1.0.txt
+ffree.js
+txt.py

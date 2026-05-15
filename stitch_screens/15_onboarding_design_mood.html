@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURA - Set the mood</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-tertiary-fixed-variant": "#00513e", "surface-container-high": "#2a292f", "tertiary-container": "#00a481", "inverse-surface": "#e4e1e9", tertiary: "#28dfb3", "outline-variant": "#484555", "on-tertiary-fixed": "#002117", "surface-container": "#1f1f25", outline: "#938ea1", "primary-fixed-dim": "#cabeff", "text-primary": "#F0F2F7", "tertiary-fixed": "#55fcce", error: "#ffb4ab", "on-primary-container": "#2b0088", "on-background": "#e4e1e9", "on-surface": "#e4e1e9", "on-error": "#690005", "inverse-on-surface": "#303036", "primary-container": "#947dff", "on-primary-fixed": "#1c0062", "inverse-primary": "#613de0", "on-secondary-container": "#3c2c00", "on-secondary-fixed-variant": "#594400", "on-primary": "#32009a", "on-primary-fixed-variant": "#4918c8", elevated: "#1A1A2E", "surface-container-low": "#1b1b20", "primary-fixed": "#e6deff", "text-tertiary": "#B8C2D4", "on-error-container": "#ffdad6", "surface-dim": "#131318", "secondary-fixed-dim": "#efc13e", "error-container": "#93000a", "on-secondary-fixed": "#241a00", "secondary-container": "#ba9000", "text-secondary": "#6B7A99", "surface-tint": "#cabeff", "surface-variant": "#35343a", "surface-container-lowest": "#0e0e13", primary: "#cabeff", "on-secondary": "#3e2e00", surface: "#131318", "tertiary-fixed-dim": "#28dfb3", "on-tertiary": "#00382a", "on-tertiary-container": "#003024", "surface-bright": "#39383e", secondary: "#efc13e", "surface-container-highest": "#35343a", "on-surface-variant": "#c9c4d8", background: "#131318", "error-rose": "#FF5F87", "secondary-fixed": "#ffdf94", highest: "#2D2D3A"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"margin-mobile": "24px", gutter: "16px", unit: "8px", "margin-desktop": "64px", "container-max-width": "1200px"}, fontFamily: {"body-lg": ["Noto Serif"], "label-md": ["Noto Serif"], "headline-lg": ["Noto Serif"], "headline-md": ["Noto Serif"], "headline-lg-mobile": ["Noto Serif"], "data-mono": ["JetBrains Mono"], "label-sm": ["Noto Serif"], "body-md": ["Noto Serif"], headline: ["Noto Serif"], display: ["Noto Serif"], body: ["Noto Serif"], label: ["Noto Serif"]}, fontSize: {"body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "500"}], "headline-lg": ["32px", {lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700"}], "headline-md": ["24px", {lineHeight: "32px", fontWeight: "600"}], "headline-lg-mobile": ["28px", {lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700"}], "data-mono": ["14px", {lineHeight: "20px", fontWeight: "400"}], "label-sm": ["12px", {lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}]}}}};</script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style data-stitch-cursor="">*{cursor:crosshair!important}[contenteditable="true"]:focus,.cursor-text:focus{cursor:text!important}</style><style data-stitch-scroll-lock="">html,body{overflow:hidden!important}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-text-primary font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopAppBar JSON Executed -->
+<header class="w-full top-0 sticky bg-background text-primary font-label-md text-label-md flex justify-between items-center px-margin-mobile py-4 z-50">
+<button class="text-primary hover:opacity-80 transition-opacity duration-300 flex items-center justify-center p-2 -ml-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>close</span>
+</button>
+<div class="font-label-md text-label-md text-text-secondary tracking-widest uppercase">4 / 5
+        </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin-mobile flex flex-col pt-8 pb-12 w-full max-w-container-max-width mx-auto md:px-margin-desktop">
+<!-- Header Section -->
+<section class="mb-12">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-text-primary mb-4">
+                Set the mood.
+            </h1>
+<p class="font-body-lg text-body-lg text-text-secondary">
+                How should AURA speak to you? Choose the level of detail and tone for your daily insights.
+            </p>
+</section>
+<!-- Mood Selection Cards -->
+<section class="flex flex-col gap-unit flex-1 md:grid md:grid-cols-3 md:gap-gutter">
+<!-- Card 1: Minimal -->
+<button class="bg-surface rounded-xl p-gutter h-[100px] flex items-center justify-between group hover:bg-elevated transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-container text-left border border-transparent">
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-text-primary mb-1">Minimal</span>
+<span class="font-label-sm text-label-sm text-text-secondary">Just the facts.</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-background flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-text-secondary" style='font-variation-settings: "FILL" 0;'>short_text</span>
+</div>
+</button>
+<!-- Card 2: Balanced (Selected) -->
+<button class="bg-surface rounded-xl p-gutter h-[100px] flex items-center justify-between focus:outline-none text-left border-[2px] border-primary-container shadow-[inset_0_0_20px_rgba(148,125,255,0.1)] relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container opacity-5 pointer-events-none"></div>
+<div class="flex flex-col relative z-10">
+<span class="font-headline-md text-headline-md text-primary-container mb-1">Balanced</span>
+<span class="font-label-sm text-label-sm text-text-primary">Thoughtful context.</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center relative z-10">
+<span class="material-symbols-outlined text-primary-container" style='font-variation-settings: "FILL" 1;'>tune</span>
+</div>
+</button>
+<!-- Card 3: Rich -->
+<button class="bg-surface rounded-xl p-gutter h-[100px] flex items-center justify-between group hover:bg-elevated transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-container text-left border border-transparent">
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-text-primary mb-1">Rich</span>
+<span class="font-label-sm text-label-sm text-text-secondary">Deep exploration.</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-background flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-text-secondary" style='font-variation-settings: "FILL" 0;'>menu_book</span>
+</div>
+</button>
+</section>
+<!-- Bottom Action -->
+<section class="mt-auto pt-12 md:flex md:justify-end">
+<button class="w-full md:w-auto h-[52px] bg-inverse-primary hover:bg-primary-container text-text-primary font-body-lg text-body-lg rounded-full flex items-center justify-center px-8 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-fixed shadow-none border-none">
+                Continue
+            </button>
+</section>
+</main>
+</body></html>

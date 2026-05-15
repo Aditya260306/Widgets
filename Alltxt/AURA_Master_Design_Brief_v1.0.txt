@@ -1,0 +1,729 @@
+================================================================================
+FILE: docs/AURA_Master_Design_Brief_v1.0.docx
+================================================================================
+
+
+AURA
+Adaptive Unified Reality Assistant
+
+
+
+0.  How to Use This Document
+This brief is designed to be fed verbatim into two AI design tools: Google Stitch and Figma Make. Each section is structured to give the AI exactly what it needs to generate high-fidelity, accurate screens. Read this section before using either tool.
+
+0.1  Workflow Overview
+Read this entire document once before starting either tool.
+Open Google Stitch. Start a new project. Paste the design system section (Section 1) as the base context, then feed each screen section (2–8) one at a time.
+Open Figma Make. Create a new Figma file. Use the design system section to generate your component library first, then generate each screen.
+For each screen, generate with both tools.
+Screenshot or export both versions side-by-side.
+Evaluate using the comparison rubric in Section 9 of this document.
+Pick the winner per screen, note your decision, and proceed to implementation.
+
+0.2  How to Prompt Each Tool
+
+
+
+
+
+1.  Design System
+
+1.1  Design Philosophy — Paste This Verbatim
+AURA is a personal Android app that manages AI-powered home screen widgets. The design language is "Quiet Luxury" — the visual equivalent of a well-made, unbranded object. Nothing competes for attention. Everything earns its place. The primary inspiration is Niagara Launcher: extreme restraint, generous whitespace, one typeface, no bottom navigation bar, and gesture-first navigation. Secondary inspirations: Linear.app (for its dark dense UI with surgical typography), Craft (for its satisfying interaction model), Blackbox app (for rewarding exploration with hidden interactions).
+
+Every design decision should pass this test: "Would a user notice this if it was removed?" If yes, keep it. If no, remove it.
+
+1.2  Colour Palette
+These are the ONLY colours used in the entire application. Do not introduce any other colours.
+
+Primary Backgrounds
+
+Background Base (#0A0A0F): Main screen background. Near-black, almost no blue tint. Not pure black — has warmth.
+Background Surface (#0F0F1A): Widget cards, list items, anything that sits on top of the base.
+Background Elevated (#1A1A2E): Bottom sheets, modals, dialogs. Clearly above the surface.
+Background Highest (#2D2D3A): Tooltips, popovers — the highest floating elements.
+
+Accent Colours
+
+Violet (#7C5CFC): Primary interactive colour. AI features, primary buttons, selected states, active navigation indicators, borders on focused inputs. Used most frequently among accents.
+Mint (#00D4A8): Success states, completed habits, live/real-time data indicators, charging battery, positive trends. Never used for primary actions.
+Rose (#FF5F87): Errors, destructive actions, alerts, warnings. Used sparingly — when it appears, it means something important.
+Gold (#F4C542): Reserved exclusively for the AI Insight widget content — the highest-value AI-generated content. Extremely rare. When users see gold, they know it is special.
+
+Ghost / Tinted Backgrounds
+
+These are used as tinted background fills for callout boxes, info panels, and notification banners in the light context only. On dark backgrounds, use the accent colour at 10% opacity instead.
+
+Text Colours
+
+Text Primary (#F0F2F7): All main readable text on dark backgrounds. Slightly warm white — not pure white, which feels harsh.
+Text Secondary (#6B7A99): Timestamps, labels, secondary descriptions, hints, placeholder text.
+Text Tertiary (#B8C2D4): Disabled states, captions, legal text. The quietest voice.
+Text on Accent (#FFFFFF): Text rendered on any coloured button or accent background.
+
+1.3  Typography
+
+
+1.4  Spacing & Layout
+Base grid: 8dp. Every spacing value is a multiple of 8. No exceptions.
+
+
+1.5  Elevation System
+AURA does not use drop shadows. Elevation is communicated through background colour only. The darker the background relative to the element on top, the higher it appears.
+
+
+1.6  Component Specifications
+Primary Button
+
+Secondary Button / Outlined Button
+
+Destructive Button
+
+Chip / Tag
+
+Input Field
+
+Bottom Sheet
+
+Top App Bar (used in Builder screens only)
+
+List Item (Settings / Content rows)
+
+Switch / Toggle
+
+Floating Action Button (FAB)
+
+Slider
+
+Progress Indicators
+
+
+2.  Screen S1 — Onboarding
+
+2.1  Overview
+
+2.2  Step 1 — Welcome
+
+
+
+2.3  Step 2 — API Key
+
+
+
+2.4  Step 3 — Permissions
+
+2.5  Step 4 — Design Mood
+
+
+
+2.6  Step 5 — First Widget
+
+
+3.  Screen S2 — Dashboard
+
+3.1  Overview
+
+3.2  Top Status Strip
+
+
+
+3.3  Widget Cards
+
+3.4  Empty State
+
+
+4.  Screen S3 — Widget Builder
+
+4.1  Phase A — Prompt Entry
+
+
+
+4.2  Phase B — Generating State
+
+4.3  Phase C — Preview & Iteration
+
+Customisation Panel (Scrollable bottom section)
+
+
+
+4.4  Phase D — Size & Layout
+
+4.5  Phase E — Behaviour Configuration
+
+4.6  Phase F — Confirmation
+
+
+5.  Screen S4 — Widget Detail & Editor
+
+5.1  Layout Overview
+
+5.2  Metadata Section Detail
+
+5.3  Content History List
+
+
+
+
+6.  Screen S5 — Context Engine Monitor
+
+
+6.1  Context Tiles Grid
+A 2-column grid of context tiles. Each tile: Surface background #0F0F1A, 12dp radius, 12dp internal padding.
+
+
+6.2  Widget Orchestration Table
+Below the tiles: a section header "Widget Orchestration" then a compact table with 3 columns: Widget name, Status (chip), Suppressed By.
+
+
+
+
+7.  Screen S6 — Fidget Space
+
+The Fidget Space is a full-screen interactive playground. Pure black background (#000000 — the only screen that uses true black). No status bar elements. No top bar. A small 4-icon nav strip at the very bottom selects between 4 toys. The rest is canvas.
+
+Since these are animated physics experiences, the design tools will generate STATIC representations. The static designs must show the MOOD and visual language of each toy, with annotations describing the animations. These are concept screens, not literal implementations.
+
+7.1  Fidget Toy Designs — Static Representations
+
+Toy 1 — Gravity Orbs
+
+Toy 2 — Ink Ripples
+
+Toy 3 — Breathing Metronome
+
+Toy 4 — String
+
+Bottom Navigation Strip
+
+
+
+
+8.  Screen S7 — Settings
+
+
+8.1  Settings Groups & Rows
+Group: AI & API
+
+
+
+
+
+
+
+Group: Appearance
+
+Group: Performance
+
+Group: Privacy
+
+Group: About
+
+
+
+
+9.  Comparison Rubric — How to Judge the Outputs
+After generating all screens with both Google Stitch and Figma Make, use this rubric to decide which design wins for each screen. Score each tool out of 5 for each criterion. Highest total wins the screen.
+
+9.1  Evaluation Criteria
+
+9.2  Score Sheet
+
+
+9.3  Common Failure Modes to Watch For
+
+
+
+AURA Master Design Brief  |  v1.0  |  For Google Stitch & Figma Make
+
+Generate. Compare. Pick the best. Build something extraordinary.
+
+----------------------------------------
+TABLE DATA:
+----------------------------------------
+Master Design Brief
+For use with Google Stitch and Figma Make (Figma AI)
+This document is a complete, self-contained design specification. Give the entire document as context to each AI tool. Do not paraphrase or summarise. The level of detail is intentional.
+Field | Value
+App Name | AURA — Adaptive Unified Reality Assistant
+Platform | Android 12+ (API 31 minimum). Phone form factor. Portrait orientation primary.
+Purpose | Personal AI-powered home screen widget configuration app. Used by one person. Never distributed.
+Design Style | Quiet Luxury — Dark-first, near-black, surgical typography, whisper-level animations. Think Niagara Launcher meets Linear.app.
+Primary AI Tool A | Google Stitch — generate full Material You Android screen flows
+Primary AI Tool B | Figma Make (Figma AI) — generate Figma component library and screen designs
+How to use | Feed this full document into each tool as the design brief. Generate separately. Compare outputs. Pick the better design per screen.
+Total Screens | 7 distinct screens + Design System components
+Document Version | 1.0 — May 2026
+G
+Google Stitch | Google Stitch Instruction
+Stitch works best with structured prompts that specify: the screen name, its purpose, exact component list, and layout description.
+Start every Stitch prompt with: "Android Material You app, dark theme, following this design system:" and then paste Section 1.
+Then append the screen section verbatim.
+Use Stitch's "Generate Variants" feature to get 3 versions of each screen. Pick the cleanest one.
+Stitch understands Android component names (FAB, BottomSheet, TopAppBar, LazyColumn, Chip). Use them.
+If Stitch adds a bottom navigation bar — reject it. AURA has no bottom nav. Regenerate.
+F
+Figma Make | Figma Make Instruction
+Figma Make works best when you first generate a component library, then reference those components when building screens.
+Start with: "Create a Figma component library called AURA Design System using the following specifications:" then paste Section 1.
+Once the library is created, for each screen say: "Using the AURA Design System components already created, generate the [Screen Name] screen as described:" then paste the screen section.
+Figma Make is stronger at visual polish and component variants. Use it for the Widget Builder screen especially.
+Ask for Auto Layout frames so that the output is responsive and developer-ready.
+Request both dark and light mode variants where noted.
+ | Critical Rule for Both Tools
+Neither tool will get it right on the first try. Your job is to iterate.
+For each screen: generate → review against this brief → list what is wrong → regenerate with corrections appended.
+Treat the AI output as a first draft, not a final design. The brief is the source of truth.
+Feed this entire section into both tools FIRST, before generating any screens. This is the DNA of the app.
+BASE | SURFACE | ELEVATED | HIGH
+Background Base
+#0A0A0F | Background Surface
+#0F0F1A | Background Elevated
+#1A1A2E | Background Highest
+#2D2D3A
+PRIMARY | MINT | ROSE | GOLD
+Violet (Primary)
+#7C5CFC | Mint (Success)
+#00D4A8 | Rose (Error/Alert)
+#FF5F87 | Gold (Insight)
+#F4C542
+VIO GHOST | MINT GHOST | ROSE GHOST | GOLD GHOST
+Violet Ghost
+#EDE8FF | Mint Ghost
+#D4F7F1 | Rose Ghost
+#FFE4EC | Gold Ghost
+#FEF6D6
+T-PRIMARY | T-SECOND | T-TERTIARY | T-ON-ACC
+Text Primary
+#F0F2F7 | Text Secondary
+#6B7A99 | Text Tertiary
+#B8C2D4 | Text on Accent
+#FFFFFF
+ | Typography Rule
+Two typefaces. Only two. No exceptions.
+Display & Headings: Georgia (serif). Signals intelligence, editorial quality, intentionality.
+Body, Data, Labels: "Noto Serif" as the first choice for Google Stitch; "Lora" for Figma Make. Both are warm serifs that pair beautifully with Georgia. Fall back to system serif if unavailable.
+Numbers, timestamps, code: "Roboto Mono" — monospace for data clarity.
+NEVER use Inter, Roboto (non-mono), San Francisco, or any sans-serif for anything other than system UI elements that cannot be overridden.
+Style Name | Font | Size | Weight | Line Height | Colour | Usage
+Display XL | Georgia | 44sp | Bold | 52sp | Text Primary | Onboarding hero titles only
+Display L | Georgia | 36sp | Bold | 44sp | Text Primary | Screen titles (H1)
+Display M | Georgia | 28sp | Bold | 36sp | Text Primary / Violet | Section headers (H2)
+Title L | Georgia | 22sp | Bold | 30sp | Text Primary | Card titles, setting group headers
+Title M | Georgia | 19sp | Bold | 26sp | Text Primary | List item titles, widget names
+Title S | Georgia | 17sp | SemiBold | 24sp | Text Secondary | Labels, metadata
+Body L | Noto Serif / Lora | 21sp | Regular | 32sp | Text Primary | Main descriptive text
+Body M | Noto Serif / Lora | 19sp | Regular | 28sp | Text Primary | Settings descriptions, list body
+Body S | Noto Serif / Lora | 17sp | Regular | 24sp | Text Secondary | Secondary info, captions
+Caption | Noto Serif / Lora | 15sp | Regular | 20sp | Text Tertiary | Timestamps, footnotes
+Data / Mono | Roboto Mono | 18sp | Regular | 24sp | Text Primary / Mint | Numbers, API counts, code
+Widget Title | Georgia | 16–22sp (configurable) | Bold | 1.2× | White | Widget headline on launcher
+Widget Body | Noto Serif / Lora | 13–18sp (configurable) | Regular | 1.4× | Text Primary | Widget content on launcher
+Token | Value | Use Case
+space-2 | 2dp | Micro gaps only — icon to indicator dot
+space-4 | 4dp | Between icon and label in chips
+space-8 | 8dp | Tight internal component padding
+space-12 | 12dp | Chip internal padding, small card padding
+space-16 | 16dp | Standard card padding, list item vertical rhythm
+space-24 | 24dp | Between related sections inside a screen
+space-32 | 32dp | Between unrelated sections, major component spacing
+space-48 | 48dp | Hero zones, empty state padding, top of screen content
+screen-margin-h | 16dp | Horizontal margin on ALL screens — content never touches screen edge
+screen-margin-v | 24dp | Top and bottom content padding on all screens
+touch-target-min | 48dp | Minimum touch target for every interactive element — even small icons
+widget-card-radius | 16dp | Border radius for all widget cards
+button-radius | 12dp | Border radius for standard buttons
+chip-radius | 999dp | Full pill radius for all chip/tag elements
+bottom-sheet-radius | 28dp top corners | Top corners of all bottom sheets and drawers
+Level | Background Colour | Where Used
+Level 0 — Scrim | #0A0A0F (Base) | Main screen background — the lowest layer
+Level 1 — Surface | #0F0F1A | Widget cards, list rows, input fields
+Level 2 — Elevated | #1A1A2E | Bottom sheets, drawers, contextual menus
+Level 3 — Overlay | #2D2D3A + 60% black scrim behind | Modals, dialogs, full-screen overlays
+Background | Violet #7C5CFC
+Text | Georgia Bold 18sp, White #FFFFFF
+Height | 52dp
+Corner radius | 12dp
+Width | Full width of container (minus screen margins)
+Padding | 16dp horizontal
+Disabled state | 30% opacity. No other change.
+Pressed state | Scale to 0.96, background darkens to #4A3896. Spring animation 150ms.
+Loading state | Text disappears. A 20dp thin circular progress indicator appears in its place. Violet colour. Button remains full width.
+Background | Transparent
+Border | 1.5dp, Violet #7C5CFC
+Text | Georgia Bold 18sp, Violet #7C5CFC
+Height | 52dp
+Corner radius | 12dp
+Pressed state | Background fills to Violet at 10% opacity. Border remains.
+Background | Transparent (outlined variant only — never a filled destructive button)
+Border | 1.5dp, Rose #FF5F87
+Text | Georgia Bold 18sp, Rose #FF5F87
+Usage | Only for irreversible actions: Remove Widget, Clear All, Reset AURA. Always preceded by a confirmation step.
+Default state | Background: Surface #0F0F1A. Border: 1dp Slate #6B7A99. Text: Body S, Slate. Corner radius: pill (999dp).
+Active/Selected state | Background: Violet #7C5CFC. Border: none. Text: Body S, White. Immediate transition.
+Height | 32dp. Padding: 12dp horizontal, 8dp vertical.
+Icon chip | Same as above but with a 16dp icon to the left of the label. 4dp gap.
+Background | Surface #0F0F1A
+Border default | 1dp, Slate Light #B8C2D4
+Border focused | 2dp, Violet #7C5CFC — transition 150ms
+Border error | 2dp, Rose #FF5F87
+Text | Body L, Text Primary
+Placeholder | Body L, Text Tertiary
+Corner radius | 12dp
+Height | 52dp minimum. Multi-line: auto-expands, min 4 lines for prompt areas.
+Label | Floating label above field (Material style). Georgia Title S.
+Helper text | Below field, Body S, Text Secondary. Error text: Rose.
+Background | Background Elevated #1A1A2E
+Top corners | 28dp radius
+Handle | A 32×4dp rounded pill, Background Highest #2D2D3A, centered at top, 12dp from top edge.
+Entry animation | Slides up from bottom, 350ms, EaseOutExpo easing. Background scrim fades in simultaneously.
+Background scrim | 60% opacity black overlay over content below.
+Dismissal | Swipe down to dismiss. Tap scrim to dismiss. "Cancel" option always available as a text button inside the sheet.
+Height | 56dp
+Background | Background Base #0A0A0F — same as page. No elevation or border.
+Back arrow | Left side. 24dp icon. Text Secondary colour. 48dp touch target.
+Title | Center. Georgia Title L. Text Primary.
+Actions | Right side — maximum 2 icon buttons. 24dp icons. 48dp touch targets.
+Height | 56dp minimum, auto-expands for longer text
+Padding | 16dp horizontal, 12dp vertical
+Leading element | Optional: 24dp icon in Text Secondary colour
+Title | Georgia Title M, Text Primary
+Subtitle | Noto Serif Body S, Text Secondary. On new line below title.
+Trailing element | Toggle (Switch), right-arrow chevron, or value text in Text Secondary
+Divider | 0.5dp, Background Highest #2D2D3A, between items of the same group
+Section header | Georgia Title S in Text Secondary, UPPERCASE, 32dp top padding, 8dp bottom padding. No background.
+OFF state | Track: Background Highest #2D2D3A. Thumb: Text Secondary #6B7A99.
+ON state | Track: Violet #7C5CFC. Thumb: White #FFFFFF.
+Transition | 200ms spring animation. Thumb travels with slight overshoot.
+Size | Standard Material3 Switch dimensions.
+Size | 56dp × 56dp circle
+Background | Violet #7C5CFC
+Icon | 24dp "+" icon, White
+Position | Bottom-right. 24dp from right edge. 24dp from bottom of content area (above system navigation bar).
+Pressed state | Scale to 0.92, spring bounce back. Background darkens to #4A3896.
+Scroll behaviour | When user scrolls down: FAB shrinks to 40dp and opacity reduces to 60% over 200ms. On scroll up or idle: returns to full size.
+Extended state (long-press) | FAB expands into a vertical speed-dial with 3 labelled options. Each option: 40dp circle + label to the left. Violet background for primary, Surface for secondary options.
+Track | 4dp height. Background Highest for unfilled, Violet for filled portion.
+Thumb | 20dp circle, White, with 2dp Violet border. Pressed: expands to 28dp.
+Value indicator | Appears on press/drag. Floating above thumb. Background Highest, Text Primary, Body M.
+Labels | Below track ends, Body S, Text Tertiary.
+Circular (loading) | 24dp diameter. Violet stroke, 2.5dp width. Indeterminate rotation.
+Linear (page loading) | 2dp height, full width. Violet fill on Background Highest track. Positioned at very top of screen, behind status bar.
+Arc (stat display) | Used for battery, API usage. Custom: thin-stroke circular arc, 2dp width. Accent colour for filled portion, Background Highest for track.
+S1 | Onboarding
+First launch only. Sets the entire tone. Must feel like opening something premium.
+Trigger | First app launch only. Never shown again.
+Total views | 5 steps within a single HorizontalPager (swipe to advance, or tap CTA button).
+Background | Background Base #0A0A0F — full bleed, edge to edge, no status bar tint.
+Progress indicator | Extremely minimal: small text "2 / 5" in Text Tertiary colour, top-right corner only. No dots, no bars.
+Back navigation | System back gesture goes to previous step. On Step 1, back closes the app (no exit confirmation).
+Transition | Cross-fade between steps (not a slide). 300ms fade. Keeps the layout stable — only content changes.
+G
+Google Stitch | Google Stitch Instruction
+Generate an Android full-screen dark onboarding step. Background #0A0A0F. Three widget outline illustrations (simple rounded rectangles, 2dp stroke, colours Violet, Mint, Rose, arranged horizontally) centered on the upper 60% of the screen. Below: Georgia 36sp bold text "Your home screen, finally intelligent." in #F0F2F7. Below that: Noto Serif 19sp #6B7A99 "AURA learns what matters to you and surfaces it. Nothing else." At the bottom: full-width primary button "Begin" (Violet fill, Georgia Bold 18sp). Very bottom: small tertiary text "Takes about 2 minutes" in #B8C2D4 13sp.
+F
+Figma Make | Figma Make Instruction
+Create a Figma frame sized 390×844px (iPhone 14 equivalent, portrait). Background fill #0A0A0F. Add three rounded rectangles (W:90, H:120, R:16) arranged horizontally in the upper 55% of the frame, with fills #7C5CFC, #00D4A8, #FF5F87 at 40% opacity, 2px strokes at 100% opacity matching the fill colours. Add a Georgia Bold text layer "Your home screen, finally intelligent." at 36px, fill #F0F2F7. Auto-layout the text and illustrations in a vertical frame with 24px gap. At the bottom, add a rectangle button (fill #7C5CFC, R:12, H:52, W:full-width minus 32px margins) with text "Begin" Georgia Bold 18px white. This should use Auto Layout throughout.
+Illustration | Three widget outlines. Thin 2dp stroke. Filled at 20% opacity with their stroke colour. Simple — just shape, no content inside. Arranged horizontally. Gently pulse (opacity 70%→100%) on a 2.5 second cycle — DO NOT show in static design, annotate as animation.
+Headline | Georgia 36sp Bold. Text Primary #F0F2F7. Two lines: "Your home screen," and "finally intelligent." No quotation marks.
+Subtext | Noto Serif 19sp. Text Secondary #6B7A99. Max 2 lines. "AURA learns what matters to you and surfaces it. Nothing else."
+Button | Primary full-width "Begin". Standard primary button spec. 24dp from bottom of safe area.
+Fine print | Caption 13sp. Text Tertiary. "Takes about 2 minutes." Centred below button.
+Purpose | Collect the Anthropic Claude API key. Store instruction. Trust building.
+Headline | Georgia 28sp Bold. "Connect your AI."
+Description | Noto Serif 19sp, Text Secondary. "Your API key is stored in your phone's hardware encryption chip (Android Keystore). It never leaves your device except to reach Anthropic's servers directly."
+Input field | Full-width. Standard input field spec. Label: "Claude API Key". Placeholder: "sk-ant-...". Input is masked by default (show last 4 chars, rest ••••). A small eye icon on the right toggles mask. Monospace font (Roboto Mono) for the actual key value.
+Paste button | Inside the input field trailing area: clipboard icon 20dp. Tap pastes from clipboard. On successful paste: field border flashes Mint for 400ms.
+Validation row | Below input: inline validation text. Default: hidden. Error: "This doesn't look like a valid key format." in Rose Body S. Success: hidden (silence = OK).
+Test Connection button | Below validation. Outlined secondary button "Test Connection". Hidden until key is pasted (appears with 200ms fade-in). On tap: button enters loading state (spinner inside). Success: button text changes to "Connected ✓" colour Mint. Failure: button text changes to "Connection failed" colour Rose.
+Security note | Small row: lock icon (16dp, Text Secondary) + "Hardware encrypted on this device" (Caption, Text Secondary). Tappable — expands to 2-line explanation.
+CTA | Primary button "Continue" — disabled (30% opacity) until test connection succeeds.
+G
+Google Stitch | Google Stitch Instruction
+Generate Step 2 of the dark Android onboarding. Same background #0A0A0F. At the top: Georgia Bold 28sp "Connect your AI." Below: Noto Serif 19sp text block explaining key storage security. Below that: a standard Material3 OutlinedTextField with label "Claude API Key", placeholder "sk-ant-...", monospace text, with a trailing eye icon and a clipboard paste icon. Below the field: a secondary outlined button "Test Connection" (Violet border). At the bottom: a primary button "Continue" in 30% opacity disabled state. Include a small lock icon row below the text field.
+F
+Figma Make | Figma Make Instruction
+Design Step 2 of the AURA onboarding flow in a 390×844px Figma frame. Background #0A0A0F. Heading "Connect your AI." in Georgia Bold 28px #F0F2F7. Description paragraph in Noto Serif 19px #6B7A99. A text input component (fill #0F0F1A, 1px border #B8C2D4, R:12, H:52) with floating label "Claude API Key". The input should show trailing icons: eye (visibility toggle) and clipboard. Below: an outlined button component (transparent fill, 1.5px #7C5CFC border, R:12, H:52) labelled "Test Connection". A small icon+text row with lock icon and security note. At bottom: primary button "Continue" at 30% opacity (disabled). All in a vertical Auto Layout frame.
+Headline | Georgia 28sp Bold. "What AURA can see."
+Layout | Vertical list of 4 permission rows. Each row: 56dp height. Leading 24dp icon (icon names below). Title Georgia Title M. Subtitle Noto Serif Body S Text Secondary. Trailing: Material3 Switch. Divider between rows.
+Permission 1 | Icon: location_on. Title: "Location". Subtitle: "Used for weather and commute estimates." Badge: "Recommended" chip in Violet.
+Permission 2 | Icon: calendar_month. Title: "Calendar". Subtitle: "Helps AURA understand your schedule and context." Badge: "Recommended" chip in Violet.
+Permission 3 | Icon: notifications. Title: "Notifications". Subtitle: "For silent background updates only. No alerts." Badge: "Optional" chip in Slate.
+Permission 4 | Icon: battery_saver. Title: "Battery Optimisation". Subtitle: "Allows background refresh without Android killing AURA." Badge: "Optional" chip in Slate.
+Switch interaction | Tapping a switch triggers the real OS permission dialog (annotate this in design). If granted, switch animates ON. If denied, switch stays OFF and subtitle changes to describe the degraded behaviour.
+CTA | Primary button "Continue". Always enabled — zero permissions is acceptable.
+Headline | Georgia 28sp Bold. "Set the mood."
+Subtitle | Noto Serif 19sp Text Secondary. "How should AURA speak to you? Pick one. You can change this later."
+Option 1: Minimal | A tappable tile (full-width, 100dp height, Surface background, 16dp radius). Shows a mock weather widget inside: just a temperature number in large Georgia and a one-word condition. Label: "Minimal" Georgia Title M. Tagline: "Less is more" Body S Text Secondary.
+Option 2: Balanced | Same tile format. Mock widget shows temperature + 3-day forecast with small icons + a 2-line AI summary. Label: "Balanced". Tagline: "Clear without clutter."
+Option 3: Rich | Same tile format. Mock widget shows full weather card with icon, temperature, feels-like, humidity, AI narrative paragraph. Label: "Rich". Tagline: "Give me everything."
+Selection state | Selected tile: 2dp Violet border, Violet Ghost background tint. Others: standard Surface background, no border.
+Note | Caption below tiles: "This is your default. Individual widgets can use a different mood."
+CTA | Primary button "Continue". Enabled after any selection is made.
+G
+Google Stitch | Google Stitch Instruction
+Generate Step 4 of AURA onboarding: a mood selection screen. Dark background #0A0A0F. Georgia 28sp headline "Set the mood." Body text below. Three vertical stacked tappable cards (full-width, 100dp height, background #0F0F1A, 16dp radius). Each card contains a miniature widget preview (placeholder content, different detail levels) plus a label and tagline. Middle card ("Balanced") shown in selected state with 2dp Violet border and slight Violet tint on background. Use Material3 Card components.
+F
+Figma Make | Figma Make Instruction
+Create a Figma frame for the AURA mood selection onboarding step. Three vertically stacked card components (W:full-width-32px-margins, H:100px, fill #0F0F1A, R:16) each containing a simplified widget mockup area on the left and label/tagline text on the right. Show the second card ("Balanced") in an active state with 2px Violet (#7C5CFC) stroke. Create component variants for Default and Selected states. Typography per AURA Design System.
+Headline | Georgia 28sp Bold. "Build your first widget."
+Subtitle | Noto Serif 19sp Text Secondary. "Describe what you want. AURA will build it."
+Prompt area | Large multi-line input field. Minimum 4 lines tall. Placeholder text rotates every 3 seconds: "Try: Daily weather for my commute" → "Try: Top 3 news stories in 2 lines" → "Try: My habits and streaks". Annotate the rotation as an animation — show first placeholder in design.
+Quick-start chips | Below the input: horizontal scrolling row of 5 chips: "Daily Insight", "Weather", "News", "Calendar", "Habits". Each chip tappable — fills input with a default prompt. Chip style: outlined default, filled Violet when tapped.
+Primary CTA | "Build It" — primary button. Enabled once any text is in the input.
+Skip option | Tertiary text button, no fill, no border, below primary CTA. Text: "Skip — I'll build widgets later." Text Secondary colour.
+S2 | Dashboard
+The mission control. Quiet, intelligent, radiating calm. This is the home screen of the app.
+Purpose | Central hub — lists all active widgets, shows system status, enables all navigation.
+Background | Background Base #0A0A0F, full bleed.
+Layout structure | Vertical scroll (LazyColumn). Fixed top status strip. Scrollable widget list. Fixed FAB bottom-right.
+Navigation | No bottom nav bar. No drawer. FAB for create. Tap widget for detail. Long-press status strip for context monitor. Swipe up for Fidget Space.
+Empty state | When no widgets: centered illustration + "Nothing here yet." + single "Build a Widget" button.
+Height | 48dp. Fixed, does not scroll.
+Background | Background Base (same as page — no separation).
+Left element | "AURA" wordmark. Georgia Bold 18sp. Violet #7C5CFC. Non-interactive — purely decorative.
+Center element | "47 / 200 calls" — API usage today. Roboto Mono 15sp. Text Secondary. Tappable: opens a small tooltip showing per-widget breakdown.
+Right elements | Battery arc indicator (small 20dp arc showing percentage). Rose if <20%, Mint if charging. Then a 20dp gear icon (Text Secondary) for Settings.
+Long-press | Long-press anywhere on the status strip → opens Context Engine Monitor (S5).
+G
+Google Stitch | Google Stitch Instruction
+Generate the AURA Dashboard Android screen. Dark background #0A0A0F. At the very top: a 48dp height status strip with "AURA" in Violet Georgia Bold 18sp on the left, "47 / 200 calls" in Roboto Mono 15sp center, a gear icon on the right. Below that: a LazyColumn of 3–4 widget cards (each card: background #0F0F1A, 16dp corners, full width minus 16dp margins each side, different heights 80dp / 160dp / 240dp). Each card shows placeholder widget content (weather, news, habits). In the bottom-right: a 56dp Violet circular FAB with a + icon. Show the first card with a subtle 1dp Violet border (fresh state). Show the third card with a tiny rose dot in its top-right corner (error state).
+F
+Figma Make | Figma Make Instruction
+Design the AURA Dashboard screen in a 390×844px Figma frame. Background #0A0A0F. Top status strip: 48px height, horizontal Auto Layout frame with: "AURA" text (Georgia Bold 18px #7C5CFC), spacer, "47 / 200 calls" (Roboto Mono 15px #6B7A99), gear icon. Main content: vertical Auto Layout with 3–4 card components (fill #0F0F1A, R:16, varying heights: 80, 160, 240px). Each card has 16px internal padding. Show card states: Fresh (1px Violet border), Default (no border), Error (tiny 8px Rose dot in top-right corner). Bottom-right: 56px circle FAB (fill #7C5CFC, + icon white). Create card as a reusable component with states: Default, Fresh, Stale, Error.
+Default Card State
+Background #0F0F1A. 16dp corner radius. No border. 16dp internal padding. Full width minus 16dp horizontal margin each side. Height varies by widget size: Compact 80dp, Standard 160dp, Tall 240dp, Full 320dp. |  | Fresh Card State
+Same as default but with a 1dp Violet border at 40% opacity. Applied when widget was updated in the last 5 minutes. Communicates freshness without being loud. The border should barely be visible — a whisper, not a shout.
+ |  | 
+Stale Card State
+Text content in the card slightly desaturates — text colour shifts from Text Primary (#F0F2F7) to Text Tertiary (#B8C2D4). A small clock icon (12dp) appears in the bottom-right of the card with elapsed time "3h ago" in Caption style. |  | Error Card State
+A 6dp rose dot in the top-right corner of the card (outside the card bounds, overlapping the corner). No text error inside the card. Tapping the dot shows a brief tooltip. The card otherwise renders normally with last cached content.
+ |  | 
+Card Interaction: Tap
+Opens S4 Widget Detail. Transition: the card expands via a shared element transition to fill the screen. The card's rounded corners animate to 0 as it fills the screen. 300ms, EaseOutExpo. |  | Card Interaction: Long-press
+A bottom sheet slides up with 4 options: Edit (pencil icon), Refresh Now (refresh icon), Duplicate (copy icon), Remove (trash icon, Rose). Each option is a 56dp list item.
+ |  | 
+Card Interaction: Swipe Right
+Reveals a Violet "Refresh" action behind the card (swipe-to-reveal pattern). If swiped >40% of card width, refresh triggers automatically and card returns. A brief Violet spinner in the top-right confirms the refresh. |  | Card Interaction: Swipe Left
+Reveals a Rose "Remove" action. If swiped >60% width, a "Remove this widget?" confirmation sheet appears. Two buttons: "Remove" (Rose outlined) and "Cancel" (Slate outlined). Card does not animate away until confirmed.
+ |  | 
+Background | Full screen Background Base. Centered content.
+Illustration | A single large (160dp × 200dp) rounded rectangle. 2dp dashed stroke, Violet at 30% opacity. No fill. Represents a widget slot waiting to be filled. Slow opacity pulse animation: 30% → 60% over 2.5 seconds, repeat.
+Headline | Georgia Display M. "Nothing here yet." Text Primary. Centered.
+Subtext | Noto Serif Body L. Text Secondary. "Tap + to build your first widget." Centered.
+CTA | Primary button "Build a Widget". 280dp width (not full width — feels more intentional). Violet.
+S3 | Widget Builder
+The centrepiece of AURA. 6 phases from prompt to live widget. Must feel fast and satisfying.
+Purpose | User types or speaks what widget they want.
+Top bar | 56dp. Back arrow left. "New Widget" center Georgia Title L. Nothing on right.
+Main input | Large multi-line text area. Minimum 6 lines visible. Background Surface. Georgia Body L for input text (serif input — deliberate, premium feel). Placeholder: "Describe the widget you want..." Text Tertiary.
+Character counter | Appears at bottom-right of input ONLY after 200 characters. Thin arc progress indicator. 0–400 range.
+Type chips | Section label: "Quick Start" Georgia Title S Text Secondary. Then horizontal scrolling chip row: "Daily Insight" "Weather" "News" "Calendar" "Habit Tracker" "Commute" "System" "Custom". All outlined-default chips. On tap: fills input with a pre-written prompt AND chip animates to filled-Violet state.
+Context preview | A collapsible section below chips. Header row: "Your current context" + a small down-chevron. Collapsed by default. Expanded shows a compact read-only card with: current time, weather snapshot, next calendar event. Background Elevated. 12dp radius. Body S for all values.
+Advanced toggle | Below the quick-start section: small underlined text "Advanced options ↓" in Text Tertiary. Expands to show: Max tokens slider (100–1000), Temperature slider (0.0–1.0) with "Precise" and "Creative" labels.
+Primary CTA | "Build Widget" — full-width Primary button. Enabled once input has any text.
+G
+Google Stitch | Google Stitch Instruction
+Generate the AURA Widget Builder Phase A screen for Android. Dark background #0A0A0F. Top app bar: back arrow, center title "New Widget" in Georgia. Main content: a tall multi-line Material3 OutlinedTextField (background #0F0F1A, border #B8C2D4, Georgian body text) spanning 6 lines minimum. Below the field: a section label "Quick Start" and a horizontally scrolling HorizontalScrollRow of 5–6 Material3 Chips (outlined style, Violet accent). Below chips: a collapsed expansion row "Your current context" with a chevron icon. At bottom: a full-width primary button "Build Widget" in Violet. Show the context expansion in collapsed state.
+F
+Figma Make | Figma Make Instruction
+Design Phase A of the AURA Widget Builder in a 390×844px Figma frame. Background #0A0A0F. Top bar: back arrow (24px icon) + "New Widget" (Georgia Bold 22px) centered. Large text area (fill #0F0F1A, R:12, min H:180px) with Georgia 21px placeholder text in #B8C2D4. Below: "Quick Start" label + horizontal scrolling chip strip (5 chips, outlined style: 1px #6B7A99 border, R:999, H:32px). Below chips: a collapsed accordion row for context. At bottom: a primary button "Build Widget" (fill #7C5CFC, R:12, H:52). All in vertical Auto Layout.
+Purpose | Communicates that the AI is working. 5–15 second wait. Must be enjoyable, not frustrating.
+Layout | The prompt input collapses to a one-line summary chip at the top (shows first 50 chars of the prompt, truncated). Below it: the generation visual. Below that: rotating status text. Full background Base.
+Prompt chip | A full-width chip showing the truncated prompt. Outlined chip style. Small "✕" on right to cancel.
+Generation visual | A large (240dp) softly glowing rounded rectangle. Same proportions as a Standard (4×2) widget. Stroke: 2dp Violet at 60% opacity. Fill: Violet at 8% opacity. Inside: three horizontal lines (shimmer/skeleton) animating. The whole shape pulses opacity 60%→90% on a 2 second cycle. ANNOTATE AS ANIMATION.
+Status text | Below the visual: rotating text on 3s cycle. "Reading your context...", "Designing the layout...", "Writing with your AI...", "Almost ready...". Noto Serif Body L italic. Text Secondary. Fade crossfade between messages.
+Cancel link | Top-right of screen: "Cancel" text button. Text Secondary. Tapping returns to Phase A with prompt preserved.
+Error state | On API failure: generation visual fades and a Rose-tinted inline error card appears. Text: "Couldn't reach AI. Check your connection." Two buttons: "Retry" (Violet outlined) and "Edit Prompt" (Slate outlined).
+Layout | Screen split: top 55% = preview zone. Bottom 45% = customisation panel (scrollable).
+Preview zone background | A subtle dark texture or very faint geometric pattern — simulates a real launcher wallpaper without being distracting. #111118 with 4% opacity noise.
+Widget preview | The actual widget rendered at selected size within the preview zone. Centred. Surrounded by 24dp padding. This is full-fidelity — shows exactly how the widget will look on the launcher.
+Size toggle pills | Three pill buttons overlaid at the top-right of the preview zone: "S" "M" "L". Active pill: Violet fill, white text. Inactive: transparent, Text Secondary. 32dp height.
+Dark/Light toggle | Small icon button at top-left of preview zone: sun/moon icon. Switches preview background between dark launcher (default) and light launcher context.
+Version dots | If multiple versions generated: a row of dots above the preview. Active version: 8dp Violet dot. Others: 5dp Text Tertiary dots. Swipe preview horizontally to navigate versions.
+Approve gesture annotation | "→ Swipe right to approve" — extremely subtle hint text below the preview. Text Tertiary, Caption. Only visible for the first 5 seconds.
+Control Name | Control Type | What It Adjusts
+Content Tone | Segmented control (3 options): Minimal / Balanced / Rich | AI output density and verbosity
+Text Size | Segmented control (3): Small / Default / Large | Font scale within widget
+Accent Colour | Horizontal row of 8 circular colour swatches (32dp each) | All accent elements in the widget
+Widget Style | 3 tappable style tiles (side by side): Flat / Outlined / Tinted | Surface treatment of the widget card on launcher
+Content Filter | Collapsed accordion: "Filter rules (optional)". Expands to text input | AI content filtering rules
+Icon Style | Segmented control: Thin / Medium / None | Icon stroke weight in widget
+AI Persona | Text input field: e.g. "terse" or "poetic" | How the AI writes the widget content
+"Regenerate with these changes" | Secondary outlined button, full-width | Triggers new API call with modified parameters. Creates a new version.
+"Version history" | Tertiary text button | Opens small bottom sheet listing up to 5 versions with thumbnails
+G
+Google Stitch | Google Stitch Instruction
+Generate the AURA Widget Builder Phase C screen. Background #0A0A0F. Top 55%: a preview zone with a very subtle dark textured background (#111118). Inside: a centred widget card mockup (a rounded card with some placeholder content representing a weather widget). Top-right of preview zone: three small pill buttons "S" "M" "L" (middle one active in Violet). Top-left: a sun/moon toggle icon. Bottom 45%: a scrollable customisation panel. Show these controls stacked vertically: "Content Tone" segmented control (3 segments), "Text Size" segmented (3), "Accent Colour" row of 8 coloured circles (32dp each), "Widget Style" three tappable tiles, one collapsed accordion "Content Filter", a secondary outlined button "Regenerate with these changes".
+F
+Figma Make | Figma Make Instruction
+Design Phase C of the AURA Widget Builder. 390×844px frame. Top 55% (H:464px): preview zone with background #111118 + 4% noise overlay. Inside: a centred card component (W:320px, H:160px, fill #0F0F1A, R:16, 1px #7C5CFC stroke) showing a placeholder widget. Top-right overlay: 3 pill buttons in a horizontal frame. Bottom 45%: vertical Auto Layout customisation panel starting with "Content Tone" segmented control (3-segment component), "Text Size" 3-segment, "Accent Colour" 8-circle row, "Widget Style" 3 tile row, "Content Filter" accordion, "Regenerate" outlined button. Use component variants for all controls. This is the most important screen — make it exceptional.
+Top bar | Back arrow. "Size & Layout" title. "4 of 6" step counter right-aligned, Text Tertiary Caption.
+Size grid | A visual representation of a phone screen (simplified, 280dp wide, proportional height, shown at 60% scale). Inside the grid: 4 pre-rendered widget size options. User taps one.
+Size options | 2×1 Compact (small strip), 4×2 Standard (medium card), 2×4 Tall (tall card), 4×4 Full (large card). Each shown in the grid at correct proportional size.
+Selected size | Selected size highlights with Violet border. The preview panel below updates in real-time.
+Preview panel | Below the size grid: the actual widget preview at the selected size. Updates instantly when size changes.
+Layout options | Some sizes show additional layout-specific toggles below the preview. Example: 4×2 Standard shows "Show header?" toggle, "Show icon?" toggle.
+CTA | Primary "Continue" button.
+Top bar | Back arrow. "Behaviour" title. "5 of 6" step counter.
+Layout | Scrollable settings list. Grouped into three labelled sections.
+Group 1: Refresh & Timing | Settings: Refresh interval (segmented: 15m / 30m / 1h / 3h / Daily), Active hours range (two time pickers), Refresh on unlock (toggle), Battery pause threshold (slider 10%–30% + Off).
+Group 2: Offline Mode | Settings: Offline behaviour (segmented: Last cache / Static message / Hide / Skeleton), Staleness indicator (toggle ON/OFF).
+Group 3: Orchestration | Settings: Suppress during focus mode (toggle), Priority tier (segmented: Critical / Normal / Low).
+CTA | Primary "Continue" button at bottom.
+Purpose | Final review. This is the last moment before the widget is saved.
+Layout | Centered. Large widget preview at top (actual size). Below: a clean spec summary card. Below: the save button.
+Spec summary card | Background Elevated #1A1A2E. 16dp radius. Shows: Widget name (large, editable on tap — underline appears), Type badge chip, Size, Refresh interval, Offline mode. Each item is a two-column row (label left, value right).
+Widget name field | Auto-generated from the prompt. Example: if prompt was "Daily weather for my commute", name = "Daily Weather Commute". Tappable to edit inline. Georgia Title L.
+Primary CTA | "Add to AURA" — Primary button. Full width. On tap: widget saved, brief success animation (the widget card shrinks to a thumbnail that flies to top-right corner), returns to Dashboard with a "Added! Find it in your launcher's widget picker." toast.
+Discard option | Tertiary text "Discard" below the primary button. Rose text colour. Tap shows confirmation: "Discard this widget?" with "Yes, discard" (Rose) and "Keep editing" (Violet outlined) buttons.
+S4 | Widget Detail
+Deep inspection of one widget. Entered via shared element from Dashboard card.
+Entry animation | The Dashboard card expands via shared element transition to fill the screen. 300ms EaseOutExpo. Corner radius animates from 16dp to 0dp.
+Background | Background Base #0A0A0F.
+Top bar | Back arrow (left). Widget name (center, Georgia Title L). Two icon buttons right: edit (pencil 24dp) and refresh (refresh-circular 24dp).
+Hero zone (top 40%) | The widget renders at full configured size. Live data. Centered in the zone with 24dp padding all sides. Below it: "Last updated 14 minutes ago" in Caption, Text Tertiary, centered.
+Metadata section | Below hero zone. Groups of 2-column rows showing widget metadata.
+Content history (bottom) | Scrollable list of last 10 shown content items.
+Row Label | Row Value Format
+Widget Type | A coloured chip: "WEATHER", "NEWS", etc. Violet background.
+Data Sources | Vertical list of data source rows. Each: status dot (Mint=OK, Amber=Stale, Rose=Error) + source name + last fetch time.
+Refresh Schedule | Text: "Every 30 minutes, 07:00 – 22:00"
+AI Calls (7 days) | A 7-bar sparkline chart in a 120dp × 32dp area. Bars in Violet. Data Mono text showing total count.
+Offline Mode | The configured fallback strategy as a chip.
+Content Filter | Shows current filter rules if any, truncated. Tappable to expand.
+Section header | Georgia Title S, Text Secondary. "Content History — last 10 items"
+Each item | 56dp height minimum. Auto-expands for long content. Two-line layout: timestamp (Caption, Text Tertiary) on top. Truncated content preview (Body M, Text Primary, 2 lines max) below.
+Interaction badge | Trailing: small chip indicating user interaction: "Expanded" (Mint chip), "Dismissed" (Rose chip), "Seen" (Slate chip). Tappable to change the signal manually.
+Full content | Tapping an item opens a bottom sheet with the complete AI-generated content for that history entry.
+G
+Google Stitch | Google Stitch Instruction
+Generate the AURA Widget Detail screen for Android. Background #0A0A0F. Top app bar: back arrow, "Daily Weather" (widget name) centered in Georgia Bold, pencil icon and refresh icon on right. Top 40%: hero zone containing a full-size weather widget card (centred, background #0F0F1A, 16dp radius, full content — temperature, condition, forecast). Below it: "Last updated 14 minutes ago" Caption. Then a metadata section with 2-column list rows (label/value style): Type (Violet chip), Data Sources (list with green/amber dots), Refresh Schedule (text), AI Calls (small bar chart). Then a section header "Content History" followed by a list of 3 history items (timestamp + 2-line content + trailing interaction chip).
+F
+Figma Make | Figma Make Instruction
+Design the AURA Widget Detail screen. 390×844px frame. Background #0A0A0F. Top bar with back arrow, widget name centered (Georgia Bold 22px), two icon buttons. Top hero zone (H:338px): centered widget card component (reuse from Dashboard components) with full content. Below it: update timestamp in Caption. Metadata section: vertical list of label-value rows with 0.5px dividers (#2D2D3A). AI Calls row should contain a small inline bar chart component (7 bars, Violet, H:32px). Content history: section header + 3 list item components each with timestamp, 2-line text, and trailing chip variant (Mint/Rose/Slate).
+S5 | Context Engine Monitor
+What AURA knows right now. A live dashboard. Data-dense but never chaotic.
+Entry | Long-press the API calls counter in the top status strip on Dashboard.
+Background | Background Base. Data-dense. Editorial tone.
+Top bar | Close button (✕) top-left. "Context Engine" title center Georgia. Live indicator: small 8dp pulsing Mint dot + "Live" Data Mono 14sp on the right.
+Auto-refresh | Content updates every 60 seconds. A very thin Mint progress bar at the very top of the screen (1dp height, behind status bar) slowly fills to show time until next refresh.
+Tile Name | Content to Display | Size
+Time & Profile | Current time in Roboto Mono 28sp (large). Day/date in Body S. A coloured chip: "MORNING" (gold), "WORK" (violet), "EVENING" (mint), or "NIGHT" (slate). | Full-width (single column)
+Location | City name Georgia Title M. District/neighbourhood Body S Text Secondary. Accuracy chip: "Precise" (mint) or "Approximate" (slate). | Half-width
+Battery | Large percentage Roboto Mono 36sp. Thin arc progress around it. State chip: "Charging" (mint) or percentage-based colour. | Half-width
+Connectivity | Network type as large chip: "WiFi" / "5G" / "4G" / "Offline". Signal strength Body S. If offline: "Last online X min ago" in Rose. | Half-width
+Weather | Three values: temperature (Roboto Mono 22sp), condition (Body M), feels-like (Body S Text Secondary). Update time Caption. | Half-width
+Next Event | Event title Georgia Title M (truncated 2 lines). Time until event Roboto Mono 18sp Violet. Location Body S if present. | Full-width
+Focus Session | Status: "Active" chip Violet or "Inactive" chip Slate. If active: duration timer Roboto Mono. Suppressed widget count Body S. | Full-width
+G
+Google Stitch | Google Stitch Instruction
+Generate the AURA Context Engine Monitor screen for Android. Background #0A0A0F. Top app bar: X button left, "Context Engine" title center in Georgia, small green pulsing dot + "Live" text right. Main content: a 2-column grid of data tiles (each tile: background #0F0F1A, 12dp radius). Tile 1 (full-width): large Roboto Mono time "09:42" + "Thursday, 15 May" + "MORNING" gold chip. Tile 2 (half-width): Location — "Delhi" Georgia Title M + "Gharoli" body. Tile 3 (half-width): Battery — large "78%" Roboto Mono with thin arc. Tile 4 (half-width): "WiFi" large chip mint. Tile 5 (half-width): Weather "28°C" + "Partly Cloudy". Tile 6 (full-width): next event "Team Standup in 18 min". Below grid: section header "Widget Orchestration" + a simple list of 3 widgets with status chips.
+F
+Figma Make | Figma Make Instruction
+Design the AURA Context Engine Monitor. 390×844px. Background #0A0A0F. Top bar with X icon, "Context Engine" centered, and a "Live" indicator component (8px Mint circle + "Live" Roboto Mono 14px). Main content: a 2-column grid layout. Create a "Context Tile" component with fill #0F0F1A, R:12, 12px padding, variants for half-width and full-width. Full-width tile: "09:42" in Roboto Mono 28px + date text + coloured chip. Half-width tiles for Location, Battery (with arc icon), Connectivity, Weather. Full-width tiles for Next Event and Focus Session. Below grid: "Widget Orchestration" section header + a 3-row data table component.
+S6 | Fidget Space
+The most joyful screen in the app. Full-screen physics playground. Pure delight.
+Canvas | Pure black #000000. Full screen.
+Orbs | 8 circles of varying sizes (32dp to 80dp). Semi-transparent fills using all 4 accent colours: Violet, Mint, Rose, Gold. Each orb has a soft gaussian blur edge (the orb glow). Arrange them naturally scattered across the canvas, as if mid-motion.
+Trails | Each orb has a fading trail (a gradient line behind it, same colour, 0% to 30% opacity, 40dp long). Shows the direction of simulated motion.
+Static composition | Show orbs arranged dynamically — not in a grid, not in a line. Some overlapping. Some at the edges. Should feel like a paused moment of motion.
+Annotation | Add text annotation: "Orbs respond to device tilt. Touch to drag and throw. Physics collision between orbs." in design-only annotation layer.
+Canvas | Pure black #000000.
+Ripples | Show 5–6 expanding ring ripples at different stages of expansion and opacity. Rings are 1.5dp stroke, no fill. Colours: two Violet, two Mint, one Rose. Rings at 30%, 55%, 70%, 85%, 95% expansion shown simultaneously — gives the sense of temporal layering.
+Interference | Where two rings overlap: a brief brightening at the intersection point — a slightly brighter dot where the two stroke paths cross.
+Static composition | Ripples centred at different tap points across the canvas. Organic, not symmetric. Feels like someone was just tapping the screen.
+Annotation | "Tap anywhere to create a ripple. Hold longer for different colours: tap=Violet, 0.5s=Mint, 1.5s=Rose, 3s=Gold."
+Canvas | Background Base #0A0A0F (not true black — this one is slightly warmer).
+Shape | A large centred circle (180dp diameter in "exhale" state). Violet radial gradient fill: bright #7C5CFC at centre, fading to #3D1FA3 at edges. A very subtle outer glow (8dp, Violet at 15% opacity).
+State shown | Show the shape mid-inhale: 210dp diameter. Inner gradient slightly brightened. Outer glow slightly expanded to 12dp.
+Background pulse | The page background very subtly lightens at the edges during inhale (from #0A0A0F to #0D0D18) — creates the sense that the whole screen is breathing.
+Bottom controls | Three shape selector icons at the bottom (circle, triangle, square). Circle active (Violet). Others in Text Secondary. A simple label "4 sec in · 4 sec out" in Data Mono centered above the icons.
+Annotation | "Shape expands slowly over 4 seconds then contracts. Breathe with it. Tap shape to change."
+Canvas | Pure black #000000.
+String | A horizontal line at 50% vertical position. 1.5dp stroke. In rest state: colour Text Tertiary #B8C2D4. Show the string mid-pluck: it is pulled down at the 40% horizontal position, creating a visible downward curve. At the pluck point the string colour transitions to Rose #FF5F87. The curve is a smooth bezier, not angular.
+Deviation distance | Show the pluck pulled approximately 80dp below the rest position. The curve should look like a real string — tight near the anchors, maximum deviation at the pluck.
+Glow | At the maximum deviation point: a small Violet glow (10dp radius) indicates maximum stretch / tension.
+Annotation | "Pull and release to pluck. Two fingers for complex harmonics. The colour shifts with tension — Slate → Violet → Rose at maximum stretch."
+Height | 56dp. True black background. Centred row of 4 icon buttons.
+Icons | No labels. Icons: waves (Orbs), ripple (Ripples), lungs or circle-expand (Breathing), guitar-string or wave (String). 24dp icons.
+Active state | Active icon: Violet colour. Others: Text Tertiary.
+No other UI | Absolutely nothing else on these screens. No back button. No app bar. System back gesture is the only exit. Annotate this.
+G
+Google Stitch | Google Stitch Instruction
+Generate 4 separate full-screen static concepts for the AURA Fidget Space. All on pure black (#000000) background. Screen 1: 8 semi-transparent glowing orbs (Violet, Mint, Rose, Gold) scattered across the canvas with fading trails. Screen 2: multiple expanding ring ripples in Violet and Mint at different sizes and opacities, no fills, just strokes. Screen 3: a large Violet gradient circle centred on a dark background, with 3 shape icons at the bottom. Screen 4: a horizontal curved string line with a pluck depression, colour shifting from grey to rose at the pluck point. All 4 screens share a 4-icon bottom strip with one icon active in Violet.
+F
+Figma Make | Figma Make Instruction
+Create 4 Figma frames for the AURA Fidget Space screens (390×844px each, background #000000). Frame 1: Gravity Orbs — scatter 8 ellipses of varying sizes with Violet/Mint/Rose/Gold fills at 40% opacity + 100% opacity stroke, with gradient trail effects. Frame 2: Ink Ripples — 5 concentric ring strokes (no fill, varying opacity 20%–70%) positioned at organic locations. Frame 3: Breathing — centre large circle (D:210px, Violet radial gradient fill). Frame 4: String — a horizontal line that curves downward as a bezier curve, with colour gradient from #B8C2D4 to #FF5F87 at the pluck point. All 4 frames include the same bottom strip component (4 icon buttons, first active in Violet). Add annotation text layers in a dedicated annotations layer group.
+S7 | Settings
+Functional and clean. The engine room. More utilitarian than other screens — intentionally.
+Entry | Gear icon on Dashboard status strip.
+Background | Background Base #0A0A0F.
+Top bar | Back arrow. "Settings" Georgia Title L center. Nothing right.
+Layout | Single scrollable Column. No tabs. Group sections separated by section headers (Georgia Title S, Text Secondary, all-caps, 32dp top spacing, 8dp bottom spacing, no background).
+Interaction model | Tap a row: navigates to sub-page (for complex settings) or triggers inline action. Toggle rows: tap anywhere on the row to toggle. Slider rows: inline slider expands on tap.
+Setting Row | Trailing Control | Notes
+API Key | Masked value "••••••••F8K2" + "Rotate ›" link | Tap the row to open API key rotation flow (identical to Onboarding Step 2)
+Daily call limit | Current value "200" + slider (expands inline on tap) | 50–500 range. Thin arc progress below showing today usage.
+Token usage this month | Read-only value "~$0.34 est." + "›" chevron | Tapping opens a sub-page with 30-day breakdown chart
+Setting Row | Trailing Control | Notes
+Default mood | Segmented control: Min / Bal / Rich (shown inline) | Sets global default for new widgets
+Default accent colour | Row of 8 small colour circles (20dp) + selected colour name | Tapping opens full colour picker bottom sheet
+Widget font scale | Segmented: S / M / L / XL | Global scale multiplier
+Staleness indicator | Switch ON/OFF | Show clock icon on stale widget content
+Confidence dots | Switch ON/OFF | Show quality indicator dots on widgets
+Setting Row | Trailing Control | Notes
+Battery saver threshold | Segmented: 10% / 20% / 30% / Off | Pauses AI refresh below threshold
+Background data | Switch ON/OFF | Allow refreshes on mobile data
+WorkManager logs | Chevron › | Opens read-only log sub-page
+Clear all caches | Rose text button — "Clear Caches" | Requires confirmation bottom sheet
+Setting Row | Trailing Control | Notes
+Location precision | Segmented: Precise / Approx / Off | Controls GPS precision
+Calendar access | Switch + status text | Enabling/disabling live permission
+Clear preference history | Rose text button — "Reset Learning" | Clears all implicit feedback signals
+Setting Row | Trailing Control | Notes
+Version | "1.0.0 (build 42026)" | Read-only
+Export widget definitions | Chevron › | Exports JSON backup to device storage
+Reset AURA | Rose text "Reset AURA" — DANGER ZONE | Full factory reset. Must type "RESET" to confirm.
+G
+Google Stitch | Google Stitch Instruction
+Generate the AURA Settings screen for Android. Background #0A0A0F. Top app bar: back arrow, "Settings" title centered in Georgia Bold. Scrollable content below. Show 4 section groups separated by uppercase section headers in Text Secondary colour. Each group contains 2–4 ListItem rows (56dp height, title Georgia Title M, subtitle Noto Serif Body S Text Secondary, dividers between items). Group 1 "AI & API": API Key row (masked value trailing + chevron), Daily call limit row (value "200" trailing + chevron), Token usage row. Group 2 "APPEARANCE": Default mood row with inline segmented control, Accent colour row with small circle swatches trailing, Switch rows for Staleness Indicator and Confidence Dots. Group 3 "PERFORMANCE": Switch rows and one chevron row. Group 4 "ABOUT": Version row + Export row + Reset row (Rose text for destructive action).
+F
+Figma Make | Figma Make Instruction
+Design the AURA Settings screen in a 390×844px Figma frame. Background #0A0A0F. Top bar: back arrow + "Settings" (Georgia Bold 22px) centered. Main content: a vertical list with section dividers. Create a reusable "Settings Row" component with variants: Basic (title + chevron), Toggle (title + subtitle + Switch component), Value (title + value text + chevron), Destructive (title in Rose + no trailing). Section headers: Georgia Bold 15px #6B7A99 uppercase. Groups: AI & API (3 rows), Appearance (5 rows including one with inline colour swatches), Performance (4 rows), Privacy (3 rows), About (3 rows including one with Rose "Reset AURA" text). Add 0.5px dividers (#2D2D3A) between rows within groups.
+Criterion | Weight | What to Look For
+Design System Fidelity | 25% | Did the tool use EXACTLY the colours, fonts, and spacing from Section 1? Any deviation (e.g. wrong background colour, wrong font family, wrong border radius) is a deduction.
+Layout Accuracy | 20% | Does the layout match the spec (element positions, hierarchy, sizes)? Are all required elements present?
+Visual Polish | 20% | Ignoring the spec — does this just look good? Does it feel premium? Does it feel like a real product from a skilled designer?
+Dark Theme Execution | 15% | Dark themes are hard. Does it actually look good in dark? Are the contrast ratios acceptable? Does it feel like a deliberate dark theme or just a grey/black mess?
+Component Correctness | 10% | Are standard components (buttons, chips, inputs) implemented correctly per the spec? Are states shown (hover, active, disabled)?
+Reusability / Structure | 10% | For Figma Make: are components properly set up with Auto Layout and variants? For Stitch: is the output usable as a design reference?
+Screen | Stitch Score | Figma Score | Winner | Notes
+S1 Onboarding | — / 100 | — / 100 | — | 
+S2 Dashboard | — / 100 | — / 100 | — | 
+S3 Phase A (Prompt) | — / 100 | — / 100 | — | 
+S3 Phase B (Generating) | — / 100 | — / 100 | — | 
+S3 Phase C (Preview) | — / 100 | — / 100 | — | 
+S3 Phase D (Size) | — / 100 | — / 100 | — | 
+S3 Phase E (Behaviour) | — / 100 | — / 100 | — | 
+S3 Phase F (Confirm) | — / 100 | — / 100 | — | 
+S4 Widget Detail | — / 100 | — / 100 | — | 
+S5 Context Monitor | — / 100 | — / 100 | — | 
+S6 Fidget Orbs | — / 100 | — / 100 | — | 
+S6 Fidget Ripples | — / 100 | — / 100 | — | 
+S6 Fidget Breathing | — / 100 | — / 100 | — | 
+S6 Fidget String | — / 100 | — / 100 | — | 
+S7 Settings | — / 100 | — / 100 | — | 
+TOTAL | — / 1500 | — / 1500 | — | 
+ | Hybrid Approach Recommendation
+You are not forced to pick one tool overall. You can pick Stitch for some screens and Figma for others.
+A common pattern: Figma Make wins on polished individual components and the Widget Builder (complex multi-state UI). Stitch wins on Android-native patterns and overall layout accuracy.
+Once you have chosen a winner for each screen, export the designs and use them as the visual reference when vibe-coding in Android Studio.
+For implementation: your Compose code should match the winner's colour values, typography sizes, and spacing — use the design tokens from Section 1 as the Kotlin constants.
+Failure Mode | How to Spot It | Fix in Next Prompt
+Wrong background colour | The background looks dark grey or #1C1C1E (iOS dark grey) instead of our very specific #0A0A0F | Add: "Background MUST be exactly #0A0A0F — not #1C1C1E, not #121212. This exact hex."
+Bottom navigation bar added | A standard bottom nav bar with 3–4 icons appears at the bottom | Add: "DO NOT add a bottom navigation bar. AURA has no bottom nav. Navigation is gesture-based."
+Wrong fonts used | Inter, Roboto, or San Francisco used instead of Georgia + Noto Serif | Add: "Use ONLY Georgia for headings and Noto Serif for body. No sans-serif fonts anywhere."
+Rounded rect abuse | Everything has the same 12dp radius including things that should have more (bottom sheets = 28dp) or less | Specify radii explicitly for each component in the prompt.
+Purple gradient backgrounds | The AI adds a purple-to-dark gradient behind everything — a very common AI design cliché | Add: "NO gradients on background. Solid #0A0A0F ONLY. Gradients only on the fidget space orbs."
+Too many elements | The AI adds labels, explanations, help text, and secondary info that was not specified | Add: "Include ONLY the elements listed. Do not add any unspecified text, icons, or UI elements."
+Light theme default | The AI generates a light theme despite clear dark theme specification | Add: "This is a DARK THEME APP. Background is near-black. All text is light. There is no light mode for this screen."

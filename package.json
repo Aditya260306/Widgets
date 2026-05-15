@@ -1,0 +1,15 @@
+{
+  "name": "widgets",
+  "version": "1.0.0",
+  "description": "A AI widget app",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "ffree.js",
+  "scripts": {
+    "test": "npm install"
+  },
+  "dependencies": {
+    "docx": "^9.6.1"
+  }
+}

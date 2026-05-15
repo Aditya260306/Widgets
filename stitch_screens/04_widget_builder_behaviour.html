@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURA Widget Builder - Phase E: Behaviour Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&amp;family=Noto+Serif:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffdf94",
+                        "on-primary-fixed-variant": "#4918c8",
+                        "surface": "#131318",
+                        "on-tertiary-fixed": "#002117",
+                        "surface-variant": "#35343a",
+                        "on-tertiary-fixed-variant": "#00513e",
+                        "surface-container-low": "#1b1b20",
+                        "on-background": "#e4e1e9",
+                        "background": "#131318",
+                        "on-surface-variant": "#c9c4d8",
+                        "on-secondary": "#3e2e00",
+                        "error-container": "#93000a",
+                        "surface-container": "#1f1f25",
+                        "surface-bright": "#39383e",
+                        "surface-container-high": "#2a292f",
+                        "on-tertiary-container": "#003024",
+                        "tertiary-container": "#00a481",
+                        "on-secondary-fixed": "#241a00",
+                        "on-error": "#690005",
+                        "inverse-surface": "#e4e1e9",
+                        "on-primary-fixed": "#1c0062",
+                        "secondary-container": "#ba9000",
+                        "on-surface": "#e4e1e9",
+                        "inverse-primary": "#613de0",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0e0e13",
+                        "primary-container": "#947dff",
+                        "on-secondary-fixed-variant": "#594400",
+                        "on-secondary-container": "#3c2c00",
+                        "on-tertiary": "#00382a",
+                        "primary-fixed-dim": "#cabeff",
+                        "secondary": "#efc13e",
+                        "on-primary": "#32009a",
+                        "surface-tint": "#cabeff",
+                        "surface-container-highest": "#35343a",
+                        "inverse-on-surface": "#303036",
+                        "tertiary-fixed-dim": "#28dfb3",
+                        "tertiary-fixed": "#55fcce",
+                        "surface-dim": "#131318",
+                        "primary": "#cabeff",
+                        "tertiary": "#28dfb3",
+                        "on-primary-container": "#2b0088",
+                        "outline-variant": "#484555",
+                        "outline": "#938ea1",
+                        "secondary-fixed-dim": "#efc13e",
+                        "primary-fixed": "#e6deff",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "24px",
+                        "container-max-width": "1200px",
+                        "unit": "8px",
+                        "gutter": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Noto Serif"],
+                        "headline-lg": ["Noto Serif"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-sm": ["Noto Serif"],
+                        "body-md": ["Noto Serif"],
+                        "label-md": ["Noto Serif"],
+                        "headline-lg-mobile": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0A0A0F] text-on-surface antialiased min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 bg-[#0A0A0F] sticky top-0 z-50">
+<button class="text-primary hover:text-primary transition-colors duration-300 scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<h1 class="font-headline-md text-headline-md tracking-widest text-primary">Behaviour</h1>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5 of 6</span>
+</div>
+<div class="w-6"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max-width mx-auto px-4 py-8 pb-32">
+<div class="max-w-2xl mx-auto space-y-12">
+<!-- Group 1: Refresh & Timing -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-primary font-serif font-serif text-2xl font-medium tracking-tight mb-4">Refresh &amp; Timing</h2>
+<div class="bg-surface-container rounded-xl p-4 space-y-4">
+<!-- Refresh Interval -->
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface block">Refresh interval</label>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 rounded-full border border-surface-container-highest bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-bright transition-colors">15m</button>
+<button class="px-4 py-2 rounded-full border border-primary text-primary bg-primary/10 font-label-md text-label-md">30m</button>
+<button class="px-4 py-2 rounded-full border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-bright transition-colors">1h</button>
+<button class="px-4 py-2 rounded-full border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-bright transition-colors">3h</button>
+<button class="px-4 py-2 rounded-full border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-bright transition-colors">Daily</button>
+</div>
+</div>
+<!-- Active Hours -->
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface block">Active hours</label>
+<div class="flex items-center space-x-4">
+<div class="bg-surface rounded-lg px-4 py-3 flex-1 flex justify-between items-center border border-surface-container-highest">
+<span class="font-data-mono text-data-mono text-on-surface">08:00</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">schedule</span>
+</div>
+<span class="text-on-surface-variant">to</span>
+<div class="bg-surface rounded-lg px-4 py-3 flex-1 flex justify-between items-center border border-surface-container-highest">
+<span class="font-data-mono text-data-mono text-on-surface">22:00</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">schedule</span>
+</div>
+</div>
+</div>
+<!-- Refresh on Unlock Toggle -->
+<div class="flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface">Refresh on unlock</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Force update when device is unlocked</p>
+</div>
+<button class="relative inline-flex h-5 w-10 items-center rounded-full bg-primary transition-colors focus:outline-none"><span class="inline-block h-3 w-3 translate-x-6 rounded-full bg-on-primary transition-transform"></span></button>
+</div>
+</div>
+</section>
+<!-- Group 2: Offline Mode -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-primary font-serif font-serif text-2xl font-medium tracking-tight mb-4">Offline Mode</h2>
+<div class="bg-surface-container rounded-xl p-4 space-y-4">
+<!-- Offline Behavior -->
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface block">Offline behavior</label>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<label class="flex items-start space-x-3 p-3 rounded-lg border border-primary bg-primary/5 cursor-pointer">
+<input checked="" class="mt-1 text-primary focus:ring-primary bg-surface border-surface-container-highest h-4 w-4" name="offline_behavior" type="radio"/>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Last cache</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-xs">Show latest downloaded data</span>
+</div>
+</label>
+<label class="flex items-start space-x-3 p-3 rounded-lg border border-surface-container-highest hover:bg-surface-bright transition-colors cursor-pointer">
+<input class="mt-1 text-primary focus:ring-primary bg-surface border-surface-container-highest h-4 w-4" name="offline_behavior" type="radio"/>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Static</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-xs">Display a predefined static view</span>
+</div>
+</label>
+<label class="flex items-start space-x-3 p-3 rounded-lg border border-surface-container-highest hover:bg-surface-bright transition-colors cursor-pointer">
+<input class="mt-1 text-primary focus:ring-primary bg-surface border-surface-container-highest h-4 w-4" name="offline_behavior" type="radio"/>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Hide</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-xs">Collapse widget entirely</span>
+</div>
+</label>
+<label class="flex items-start space-x-3 p-3 rounded-lg border border-surface-container-highest hover:bg-surface-bright transition-colors cursor-pointer">
+<input class="mt-1 text-primary focus:ring-primary bg-surface border-surface-container-highest h-4 w-4" name="offline_behavior" type="radio"/>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Skeleton</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-xs">Show loading wireframe</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Staleness Indicator Toggle -->
+<div class="flex items-center justify-between pt-4 border-t border-surface-container-highest">
+<div>
+<p class="font-label-md text-label-md text-on-surface">Staleness indicator</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Show icon when data is &gt; 1h old</p>
+</div>
+<button class="relative inline-flex h-5 w-10 items-center rounded-full bg-surface-container-highest transition-colors focus:outline-none"><span class="inline-block h-3 w-3 translate-x-1 rounded-full bg-on-surface-variant transition-transform"></span></button>
+</div>
+</div>
+</section>
+<!-- Group 3: Orchestration -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-primary font-serif font-serif text-2xl font-medium tracking-tight mb-4">Orchestration</h2>
+<div class="bg-surface-container rounded-xl p-4 space-y-4">
+<!-- Focus Mode Suppression -->
+<div class="flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface">Focus mode suppression</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Dim or hide during active focus sessions</p>
+</div>
+<button class="relative inline-flex h-5 w-10 items-center rounded-full bg-primary transition-colors focus:outline-none"><span class="inline-block h-3 w-3 translate-x-6 rounded-full bg-on-primary transition-transform"></span></button>
+</div>
+<!-- Priority Tier -->
+<div class="space-y-4 pt-4 border-t border-surface-container-highest">
+<label class="font-label-md text-label-md text-on-surface block">Priority tier</label>
+<div class="bg-surface-container-low rounded-lg p-1 flex border border-outline-variant"><button class="flex-1 py-1.5 px-3 rounded text-center font-label-md text-on-surface-variant">Critical</button><button class="flex-1 py-1.5 px-3 rounded text-center font-label-md bg-surface-bright text-primary border border-outline-variant">Normal</button><button class="flex-1 py-1.5 px-3 rounded text-center font-label-md text-on-surface-variant">Low</button></div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 w-full bg-[#0A0A0F]/95 backdrop-blur-md border-t border-outline-variant px-4 py-4 z-50">
+<div class="max-w-2xl mx-auto flex justify-end">
+<button class="bg-primary text-on-primary font-label-md px-8 h-12 rounded-xl hover:bg-opacity-90 transition-all flex items-center justify-center font-semibold">
+                Continue
+            </button>
+</div>
+</div>
+</body></html>

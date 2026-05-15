@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURA Widget Builder - Prompt Entry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed": "#ffdf94",
+                      "on-primary-fixed-variant": "#4918c8",
+                      "surface": "#131318",
+                      "on-tertiary-fixed": "#002117",
+                      "surface-variant": "#35343a",
+                      "on-tertiary-fixed-variant": "#00513e",
+                      "surface-container-low": "#1b1b20",
+                      "on-background": "#e4e1e9",
+                      "background": "#131318",
+                      "on-surface-variant": "#c9c4d8",
+                      "on-secondary": "#3e2e00",
+                      "error-container": "#93000a",
+                      "surface-container": "#1f1f25",
+                      "surface-bright": "#39383e",
+                      "surface-container-high": "#2a292f",
+                      "on-tertiary-container": "#003024",
+                      "tertiary-container": "#00a481",
+                      "on-secondary-fixed": "#241a00",
+                      "on-error": "#690005",
+                      "inverse-surface": "#e4e1e9",
+                      "on-primary-fixed": "#1c0062",
+                      "secondary-container": "#ba9000",
+                      "on-surface": "#e4e1e9",
+                      "inverse-primary": "#613de0",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-lowest": "#0e0e13",
+                      "primary-container": "#947dff",
+                      "on-secondary-fixed-variant": "#594400",
+                      "on-secondary-container": "#3c2c00",
+                      "on-tertiary": "#00382a",
+                      "primary-fixed-dim": "#cabeff",
+                      "secondary": "#efc13e",
+                      "on-primary": "#32009a",
+                      "surface-tint": "#cabeff",
+                      "surface-container-highest": "#35343a",
+                      "inverse-on-surface": "#303036",
+                      "tertiary-fixed-dim": "#28dfb3",
+                      "tertiary-fixed": "#55fcce",
+                      "surface-dim": "#131318",
+                      "primary": "#cabeff",
+                      "tertiary": "#28dfb3",
+                      "on-primary-container": "#2b0088",
+                      "outline-variant": "#484555",
+                      "outline": "#938ea1",
+                      "secondary-fixed-dim": "#efc13e",
+                      "primary-fixed": "#e6deff",
+                      "error": "#ffb4ab"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "24px",
+                      "container-max-width": "1200px",
+                      "unit": "8px",
+                      "gutter": "16px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Noto Serif", "serif"],
+                      "headline-lg": ["Noto Serif", "serif"],
+                      "data-mono": ["JetBrains Mono", "monospace"],
+                      "label-sm": ["Noto Serif", "serif"],
+                      "body-md": ["Noto Serif", "serif"],
+                      "label-md": ["Noto Serif", "serif"],
+                      "headline-lg-mobile": ["Noto Serif", "serif"],
+                      "headline-md": ["Noto Serif", "serif"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+        /* Hide scrollbar for clean horizontal scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased md:items-center">
+<!-- TopAppBar -->
+<header class="bg-surface text-primary font-headline-lg-mobile md:font-headline-lg docked full-width top-0 flat no shadows flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky z-50 transition-colors duration-300 md:max-w-container-max-width">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-300 scale-95 transition-transform duration-200 flex items-center justify-center p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md tracking-widest text-primary flex-1 text-center">New Widget</h1>
+<div class="w-10"></div> <!-- Placeholder for right alignment -->
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col w-full px-margin-mobile md:px-margin-desktop py-8 md:max-w-2xl md:mx-auto gap-8">
+<!-- Input Area -->
+<section class="flex flex-col gap-4">
+<div class="relative w-full">
+<textarea class="w-full bg-surface-container rounded-lg border-none focus:ring-1 focus:ring-primary-container text-on-surface font-body-lg resize-none p-4 placeholder:text-on-surface-variant transition-all duration-300" placeholder="Describe the widget you want..." rows="6"></textarea>
+</div>
+</section>
+<!-- Quick Start Chips -->
+<section class="flex flex-col gap-4">
+<h2 class="font-headline-md text-on-surface-variant">Quick Start</h2>
+<div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 -mx-margin-mobile px-margin-mobile md:-mx-0 md:px-0">
+<!-- Chip -->
+<button class="flex-none rounded-full border border-surface-container-highest px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200">
+                    Daily Insight
+                </button>
+<button class="flex-none rounded-full border border-surface-container-highest px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200">
+                    Weather
+                </button>
+<button class="flex-none rounded-full border border-surface-container-highest px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200">
+                    News
+                </button>
+<button class="flex-none rounded-full border border-surface-container-highest px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200">
+                    Calendar
+                </button>
+<button class="flex-none rounded-full border border-surface-container-highest px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200">
+                    Habit Tracker
+                </button>
+<button class="flex-none rounded-full border border-surface-container-highest px-4 py-2 font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-200">
+                    Commute
+                </button>
+</div>
+</section>
+<!-- Context & Advanced -->
+<section class="flex flex-col gap-6 mt-4">
+<button class="flex items-center justify-between w-full py-4 border-b border-surface-container hover:bg-surface-container-low transition-colors duration-200 group px-2 rounded-lg">
+<span class="font-body-md text-on-surface">Your current context</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors duration-200" style="font-variation-settings: 'FILL' 0;">expand_more</span>
+</button>
+<button class="text-left w-fit mt-2">
+<span class="font-label-md text-on-surface-variant border-b border-on-surface-variant/30 pb-0.5 hover:text-on-surface hover:border-on-surface transition-all duration-200">Advanced options ↓</span>
+</button>
+</section>
+<div class="flex-1"></div> <!-- Spacer to push CTA to bottom if needed -->
+<!-- Bottom CTA -->
+<div class="w-full pb-8 md:pb-12 mt-8">
+<button class="w-full h-[52px] bg-primary-container text-on-primary-container font-label-md rounded-lg flex items-center justify-center hover:bg-primary-fixed transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary-container shadow-none">
+                Build Widget
+            </button>
+</div>
+</main>
+</body></html>
