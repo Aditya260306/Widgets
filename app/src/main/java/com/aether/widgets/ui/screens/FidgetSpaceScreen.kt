@@ -17,6 +17,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,6 +33,7 @@ import kotlin.random.Random
  */
 @Composable
 fun FidgetSpaceScreen(onDismiss: () -> Unit) {
+    val haptic = LocalHapticFeedback.current
     val ctx = FakeData.context
 
     // Breathing animation — inhale 4s, hold 1s, exhale 4s
@@ -148,7 +151,10 @@ fun FidgetSpaceScreen(onDismiss: () -> Unit) {
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
             Spacer(Modifier.height(16.dp))
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onDismiss()
+            }) {
                 Text("Return to AURA", style = MaterialTheme.typography.labelMedium, color = AuraOutline)
             }
         }

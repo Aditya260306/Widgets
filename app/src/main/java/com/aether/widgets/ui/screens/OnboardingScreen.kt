@@ -44,7 +44,13 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import com.aether.widgets.ui.components.AuraOnboardingTopAppBar
 import com.aether.widgets.ui.components.AuraSwitch
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import com.aether.widgets.ui.theme.*
+import com.aether.widgets.ui.utils.hapticClickable
+import com.aether.widgets.ui.utils.magnetic
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,19 +59,64 @@ fun OnboardingScreen(
     keyManager: KeyManager,
     onComplete: () -> Unit
 ) {
+    val haptic = LocalHapticFeedback.current
     val pagerState = rememberPagerState(pageCount = { 5 })
     val scope = rememberCoroutineScope()
+    
+    // Multi-stage "Build It" sequence state
+    var sequenceStage by remember { mutableStateOf(0) } // 0: Idle, 1: Imploding, 2: Holding, 3: Exploding
+    
+    val sequenceAnimatable = remember { Animatable(1f) }
+    
+    LaunchedEffect(sequenceStage) {
+        when (sequenceStage) {
+            1 -> {
+                // Implode: Shrink quickly
+                sequenceAnimatable.animateTo(
+                    targetValue = 0.8f,
+                    animationSpec = spring(stiffness = Spring.StiffnessMediumLow, dampingRatio = Spring.DampingRatioLowBouncy)
+                )
+                sequenceStage = 2
+            }
+            2 -> {
+                // Hold: Brief pause for tension
+                delay(200)
+                sequenceStage = 3
+            }
+            3 -> {
+                // Hold briefly then call onComplete to trigger RevealTransition in MainActivity
+                delay(200)
+                onComplete()
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(AuraBase)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    // Slight fade and shrink as we prep for reveal
+                    if (sequenceStage >= 1) {
+                        alpha = (1f - (sequenceAnimatable.value - 0.8f) * 2f).coerceAtLeast(0f)
+                        scaleX = sequenceAnimatable.value
+                        scaleY = sequenceAnimatable.value
+                    }
+                }
+        ) {
             AuraOnboardingTopAppBar(
                 currentStep = pagerState.currentPage + 1,
                 totalSteps = 5,
-                onClose = { /* Could reset or minimize */ }
+                onBack = { 
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    if (pagerState.currentPage > 0) {
+                        scope.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) }
+                    }
+                }
             )
 
             HorizontalPager(
@@ -110,12 +161,26 @@ fun OnboardingScreen(
                             keyManager = keyManager,
                             onContinue = { scope.launch { pagerState.animateScrollToPage(4) } }
                         )
-                        4 -> OnboardingFirstWidgetStep(onBuild = onComplete, onSkip = onComplete)
+                        4 -> OnboardingFirstWidgetStep(
+                            onBuild = { sequenceStage = 1 }, 
+                            onSkip = onComplete
+                        )
                     }
                 }
             }
         }
+        
+        // Explosion Overlay removed, handled by RevealTransition in MainActivity
     }
+}
+
+val ExpoEaseIn = Easing { fraction ->
+    if (fraction == 0f) 0f else Math.pow(2.0, 10.0 * (fraction - 1.0)).toFloat()
+}
+
+@Composable
+private fun lerp(start: Float, stop: Float, fraction: Float): Float {
+    return start + fraction * (stop - start)
 }
 
 @Composable
@@ -202,6 +267,7 @@ private fun OnboardingWelcomeStep(onBegin: () -> Unit) {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BentoCard(
     modifier: Modifier, 
@@ -210,6 +276,19 @@ private fun BentoCard(
     isWide: Boolean = false,
     index: Int = 0
 ) {
+    val haptic = LocalHapticFeedback.current
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.92f else 1f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "bentoScale"
+    )
+
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         kotlinx.coroutines.delay(100L * index)
@@ -220,6 +299,20 @@ private fun BentoCard(
         visible = visible,
         enter = expandVertically(animationSpec = spring(stiffness = Spring.StiffnessLow)) + fadeIn(),
         modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .combinedClickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                },
+                onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                }
+            )
     ) {
         Box(
             modifier = Modifier
@@ -253,6 +346,7 @@ private fun BentoCard(
 
 @Composable
 private fun OnboardingApiKeyStep(keyManager: KeyManager, onContinue: () -> Unit) {
+    val haptic = LocalHapticFeedback.current
     var apiKey by remember { mutableStateOf(keyManager.getGeminiKey() ?: "") }
     var visible by remember { mutableStateOf(false) }
 
@@ -301,7 +395,10 @@ private fun OnboardingApiKeyStep(keyManager: KeyManager, onContinue: () -> Unit)
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             cursorBrush = SolidColor(AuraPrimary)
                         )
-                        IconButton(onClick = { visible = !visible }) {
+                        IconButton(onClick = { 
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            visible = !visible 
+                        }) {
                             Icon(
                                 imageVector = if (visible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                                 contentDescription = null,
@@ -309,7 +406,10 @@ private fun OnboardingApiKeyStep(keyManager: KeyManager, onContinue: () -> Unit)
                                 modifier = Modifier.size(20.dp)
                             )
                         }
-                        IconButton(onClick = { /* Paste from clipboard logic */ }) {
+                        IconButton(onClick = { 
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            /* Paste from clipboard logic */ 
+                        }) {
                             Icon(
                                 imageVector = Icons.Default.ContentPaste,
                                 contentDescription = null,
@@ -345,7 +445,10 @@ private fun OnboardingApiKeyStep(keyManager: KeyManager, onContinue: () -> Unit)
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedButton(
-                onClick = { /* Test connection */ },
+                onClick = { 
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    /* Test connection */ 
+                },
                 modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(12.dp),
                 border = ButtonDefaults.outlinedButtonBorder.copy(brush = SolidColor(AuraOutlineVariant))
@@ -500,6 +603,7 @@ private fun OnboardingMoodStep(keyManager: KeyManager, onContinue: () -> Unit) {
 
 @Composable
 private fun MoodCard(title: String, desc: String, icon: ImageVector, isSelected: Boolean, onClick: () -> Unit) {
+    val haptic = LocalHapticFeedback.current
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     
@@ -509,16 +613,11 @@ private fun MoodCard(title: String, desc: String, icon: ImageVector, isSelected:
         label = "scale"
     )
 
-    val rotation by animateFloatAsState(
-        targetValue = if (isSelected) 0f else -3f,
-        animationSpec = spring(dampingRatio = 0.6f, stiffness = 800f),
-        label = "rotation"
-    )
-
-    val iconRotation by animateFloatAsState(
-        targetValue = if (isSelected) 360f else 0f,
-        animationSpec = spring(dampingRatio = 0.5f, stiffness = 400f),
-        label = "iconRotation"
+    // Selection impact effect
+    val selectPop by animateFloatAsState(
+        targetValue = if (isSelected) 1.04f else 1f,
+        animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium),
+        label = "selectPop"
     )
 
     Box(
@@ -526,9 +625,8 @@ private fun MoodCard(title: String, desc: String, icon: ImageVector, isSelected:
             .fillMaxWidth()
             .height(100.dp)
             .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-                rotationZ = if (isPressed) rotation else 0f
+                scaleX = scale * selectPop
+                scaleY = scale * selectPop
             }
             .clip(RoundedCornerShape(12.dp))
             .background(if (isSelected) AuraPrimary.copy(0.08f) else AuraSurface)
@@ -537,7 +635,7 @@ private fun MoodCard(title: String, desc: String, icon: ImageVector, isSelected:
                 color = if (isSelected) AuraPrimary else AuraOutlineVariant.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(12.dp)
             )
-            .clickable(
+            .hapticClickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
@@ -570,10 +668,7 @@ private fun MoodCard(title: String, desc: String, icon: ImageVector, isSelected:
                 Icon(
                     imageVector = icon, 
                     contentDescription = null, 
-                    tint = if (isSelected) AuraPrimary else AuraTextSecondary,
-                    modifier = Modifier.graphicsLayer {
-                        rotationZ = iconRotation
-                    }
+                    tint = if (isSelected) AuraPrimary else AuraTextSecondary
                 )
             }
         }
@@ -585,6 +680,7 @@ private fun MoodCard(title: String, desc: String, icon: ImageVector, isSelected:
 @Composable
 private fun OnboardingFirstWidgetStep(onBuild: () -> Unit, onSkip: () -> Unit) {
     var prompt by remember { mutableStateOf("") }
+    val haptic = LocalHapticFeedback.current
 
     OnboardingStepContainer(
         content = {
@@ -606,6 +702,13 @@ private fun OnboardingFirstWidgetStep(onBuild: () -> Unit, onSkip: () -> Unit) {
                     .clip(RoundedCornerShape(16.dp))
                     .background(AuraSurface)
                     .border(1.dp, AuraOutlineVariant, RoundedCornerShape(16.dp))
+                    .graphicsLayer {
+                        // Glowing aura effect based on prompt length
+                        val glow = (prompt.length / 50f).coerceIn(0f, 1f)
+                        shadowElevation = 8f * glow * density
+                        spotShadowColor = AuraPrimary.copy(alpha = 0.5f * glow)
+                        ambientShadowColor = AuraPrimary.copy(alpha = 0.5f * glow)
+                    }
                     .padding(20.dp)
             ) {
                 if (prompt.isEmpty()) {
@@ -617,7 +720,12 @@ private fun OnboardingFirstWidgetStep(onBuild: () -> Unit, onSkip: () -> Unit) {
                 }
                 BasicTextField(
                     value = prompt,
-                    onValueChange = { prompt = it },
+                    onValueChange = { 
+                        if (it.length > prompt.length) {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        }
+                        prompt = it 
+                    },
                     modifier = Modifier.fillMaxSize(),
                     textStyle = MaterialTheme.typography.bodyLarge.copy(color = AuraTextPrimary),
                     cursorBrush = SolidColor(AuraPrimary)
@@ -639,7 +747,10 @@ private fun OnboardingFirstWidgetStep(onBuild: () -> Unit, onSkip: () -> Unit) {
             ) {
                 listOf("Daily Insight", "Weather", "News", "Calendar", "Habits").forEach {
                     SuggestionChip(
-                        onClick = { prompt = it },
+                        onClick = { 
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            prompt = it 
+                        },
                         label = { Text(it) },
                         shape = CircleShape,
                         border = AssistChipDefaults.assistChipBorder(
@@ -663,7 +774,10 @@ private fun OnboardingFirstWidgetStep(onBuild: () -> Unit, onSkip: () -> Unit) {
                 )
                 
                 TextButton(
-                    onClick = onSkip,
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onSkip()
+                    },
                     modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
                 ) {
                     Text(
@@ -679,6 +793,7 @@ private fun OnboardingFirstWidgetStep(onBuild: () -> Unit, onSkip: () -> Unit) {
 
 @Composable
 private fun AuraOnboardingButton(text: String, onClick: () -> Unit, enabled: Boolean = true) {
+    val haptic = LocalHapticFeedback.current
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     
@@ -689,12 +804,16 @@ private fun AuraOnboardingButton(text: String, onClick: () -> Unit, enabled: Boo
     )
 
     Button(
-        onClick = onClick,
+        onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            onClick()
+        },
         enabled = enabled,
         interactionSource = interactionSource,
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
+            .magnetic(interactionSource)
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale

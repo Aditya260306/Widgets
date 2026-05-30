@@ -14,13 +14,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import com.aether.widgets.ui.components.*
 import com.aether.widgets.ui.fake.FakeData
 import com.aether.widgets.ui.theme.*
+import com.aether.widgets.ui.utils.hapticClickable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(onBack: () -> Unit, onReset: () -> Unit) {
+    val haptic = LocalHapticFeedback.current
     val ctx = FakeData.context
     var notificationsEnabled by remember { mutableStateOf(true) }
     var focusAutoDetect by remember { mutableStateOf(true) }
@@ -33,7 +37,10 @@ fun SettingsScreen(onBack: () -> Unit, onReset: () -> Unit) {
             TopAppBar(
                 title = { Text("Engine Room", style = MaterialTheme.typography.headlineMedium, color = AuraTextPrimary) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onBack()
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
                     }
                 },
@@ -212,7 +219,7 @@ private fun SettingsRow(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 14.dp),
+        modifier = Modifier.fillMaxWidth().hapticClickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -242,6 +249,7 @@ private fun SettingsToggleRow(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
+    val haptic = LocalHapticFeedback.current
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -257,15 +265,12 @@ private fun SettingsToggleRow(
             Text(title, style = MaterialTheme.typography.bodyMedium, color = AuraTextPrimary)
             Text(subtitle, style = MaterialTheme.typography.bodySmall, color = AuraTextSecondary, fontSize = 11.sp)
         }
-        Switch(
+        AuraSwitch(
             checked = checked,
-            onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = AuraPrimary,
-                checkedThumbColor = AuraTextPrimary,
-                uncheckedTrackColor = AuraSurfaceHighest,
-                uncheckedThumbColor = AuraOutline
-            )
+            onCheckedChange = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onCheckedChange(it)
+            }
         )
     }
 }

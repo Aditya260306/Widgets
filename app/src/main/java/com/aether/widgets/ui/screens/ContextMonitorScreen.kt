@@ -13,6 +13,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aether.widgets.ui.components.*
@@ -22,6 +24,7 @@ import com.aether.widgets.ui.theme.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContextMonitorScreen(onBack: () -> Unit) {
+    val haptic = LocalHapticFeedback.current
     val ctx = FakeData.context
 
     Scaffold(
@@ -30,7 +33,10 @@ fun ContextMonitorScreen(onBack: () -> Unit) {
             TopAppBar(
                 title = { Text("Context Engine", style = MaterialTheme.typography.headlineMedium, color = AuraTextPrimary) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onBack()
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
                     }
                 },

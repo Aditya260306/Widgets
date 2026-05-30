@@ -21,13 +21,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import com.aether.widgets.ui.components.*
 import com.aether.widgets.ui.fake.*
 import com.aether.widgets.ui.theme.*
+import com.aether.widgets.ui.utils.hapticClickable
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,6 +48,7 @@ fun DashboardScreen(
     onNavigateToFidgetSpace: () -> Unit,
     onNavigateToDetail: (String) -> Unit = {}
 ) {
+    val haptic = LocalHapticFeedback.current
     val widgets = remember { mutableStateListOf(*FakeData.widgets.toTypedArray()) }
     var showRemoveSheet by remember { mutableStateOf<String?>(null) }
     var showCardSheet by remember { mutableStateOf<String?>(null) }
@@ -79,14 +89,74 @@ fun DashboardScreen(
         }
     }
 
+    // Rubber-band overscroll logic
+    var overscrollOffset by remember { mutableStateOf(0f) }
+    val animOverscroll by animateFloatAsState(
+        targetValue = overscrollOffset,
+        animationSpec = spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessLow),
+        label = "overscroll"
+    )
+    
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                // If we're currently in an overscroll state, consume some of the scroll to return to neutral
+                if (overscrollOffset > 0 && available.y < 0) {
+                    val consumed = available.y.coerceAtLeast(-overscrollOffset)
+                    overscrollOffset += consumed
+                    return Offset(0f, consumed)
+                }
+                if (overscrollOffset < 0 && available.y > 0) {
+                    val consumed = available.y.coerceAtMost(-overscrollOffset)
+                    overscrollOffset += consumed
+                    return Offset(0f, consumed)
+                }
+                return Offset.Zero
+            }
+
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                // When we hit the bounds, start accumulating overscroll
+                if (available.y != 0f) {
+                    overscrollOffset += available.y * 0.4f // Resist the pull
+                }
+                return Offset.Zero
+            }
+
+            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+                // Return to zero when finger is lifted
+                overscrollOffset = 0f
+                return Velocity.Zero
+            }
+        }
+    }
+
     // Swipe-up to fidget detector
     var dragStartY by remember { mutableStateOf(0f) }
 
+    // Blur state for sheets
+    val blurValue by animateDpAsState(
+        targetValue = if (showCardSheet != null || showRemoveSheet != null) 16.dp else 0.dp,
+        animationSpec = spring(stiffness = Spring.StiffnessLow),
+        label = "contentBlur"
+    )
+    
+    val currentScrollOffset by remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }
+
     Scaffold(
+        modifier = Modifier
+            .nestedScroll(nestedScrollConnection)
+            .blur(blurValue),
         containerColor = AuraBase,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onNavigateToBuilder,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onNavigateToBuilder()
+                },
                 shape = CircleShape,
                 containerColor = AuraPrimary,
                 contentColor = AuraTextPrimary,
@@ -116,15 +186,25 @@ fun DashboardScreen(
         ) {
             // Status Strip — long-press triggers Context Monitor
             Box(
-                modifier = Modifier.pointerInput(Unit) {
-                    detectTapGestures(onLongPress = { onNavigateToContext() })
-                }
+                modifier = Modifier
+                    .graphicsLayer {
+                        // Subtle parallax/tilt for the header
+                        translationY = -lazyListState.firstVisibleItemScrollOffset.toFloat() * 0.2f
+                        alpha = (1f - (lazyListState.firstVisibleItemScrollOffset / 200f)).coerceIn(0f, 1f)
+                    }
+                    .pointerInput(Unit) {
+                        detectTapGestures(onLongPress = { 
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onNavigateToContext() 
+                        })
+                    }
             ) {
                 StatusStrip(
                     apiUsed = FakeData.context.apiCallsUsed,
                     apiLimit = FakeData.context.apiCallsLimit,
                     onGearClick = onNavigateToSettings,
-                    onLongPress = onNavigateToContext
+                    onLongPress = onNavigateToContext,
+                    scrollOffset = currentScrollOffset
                 )
             }
 
@@ -135,7 +215,19 @@ fun DashboardScreen(
                     state = lazyListState,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp)
+                        .graphicsLayer {
+                            // Rubber-band scaling and translation
+                            val overscrollScale = 1f + (Math.abs(animOverscroll) / 5000f)
+                            scaleX = overscrollScale
+                            scaleY = overscrollScale
+                            translationY = animOverscroll
+                            transformOrigin = if (animOverscroll > 0) {
+                                androidx.compose.ui.graphics.TransformOrigin(0.5f, 0f)
+                            } else {
+                                androidx.compose.ui.graphics.TransformOrigin(0.5f, 1f)
+                            }
+                        },
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = PaddingValues(bottom = 88.dp, top = 8.dp)
                 ) {
@@ -202,8 +294,14 @@ fun DashboardScreen(
                                     }
                                     .pointerInput(widget.id) {
                                         detectTapGestures(
-                                            onTap = { onNavigateToDetail(widget.id) },
-                                            onLongPress = { showCardSheet = widget.id }
+                                            onTap = { 
+                                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                                onNavigateToDetail(widget.id) 
+                                            },
+                                            onLongPress = { 
+                                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                                showCardSheet = widget.id 
+                                            }
                                         )
                                     }
                             ) {
@@ -306,7 +404,7 @@ private fun CardSheetAction(
         modifier = Modifier
             .fillMaxWidth()
             .clip(ShapeTile)
-            .clickable(onClick = onClick)
+            .hapticClickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -318,6 +416,7 @@ private fun CardSheetAction(
 
 @Composable
 private fun DashboardEmptyState(onAdd: () -> Unit) {
+    val haptic = LocalHapticFeedback.current
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val alpha by infiniteTransition.animateFloat(
         initialValue = 0.3f,
@@ -353,7 +452,10 @@ private fun DashboardEmptyState(onAdd: () -> Unit) {
         }
         Spacer(Modifier.height(24.dp))
         Button(
-            onClick = onAdd,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onAdd()
+            },
             colors = ButtonDefaults.buttonColors(containerColor = AuraPrimary),
             shape = ShapeButton
         ) {

@@ -23,9 +23,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import com.aether.widgets.ui.components.*
 import com.aether.widgets.ui.fake.*
 import com.aether.widgets.ui.theme.*
+import com.aether.widgets.ui.utils.hapticClickable
 import kotlinx.coroutines.delay
 
 @Composable
@@ -63,6 +66,7 @@ private fun PhaseA(
     onBack: () -> Unit,
     onStateChange: (BuilderState) -> Unit
 ) {
+    val haptic = LocalHapticFeedback.current
     var placeholderIdx by remember { mutableStateOf(0) }
     LaunchedEffect(Unit) {
         while (true) {
@@ -82,7 +86,10 @@ private fun PhaseA(
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onBack) {
+            IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onBack()
+            }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
             }
             Text("New Widget", style = MaterialTheme.typography.titleMedium, color = AuraTextPrimary)
@@ -125,7 +132,7 @@ private fun PhaseA(
                         .clip(ShapeChip)
                         .background(AuraSurfaceHigh)
                         .border(1.dp, AuraOutlineVariant, ShapeChip)
-                        .clickable { onStateChange(state.copy(promptText = chip)) }
+                        .hapticClickable { onStateChange(state.copy(promptText = chip)) }
                         .padding(horizontal = 14.dp, vertical = 8.dp)
                 ) {
                     Text(chip, style = MaterialTheme.typography.labelMedium, color = AuraTextSecondary, fontSize = 12.sp)
@@ -135,7 +142,10 @@ private fun PhaseA(
 
         Spacer(Modifier.weight(1f))
         Button(
-            onClick = { onStateChange(state.copy(phase = BuilderPhase.GENERATING)) },
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onStateChange(state.copy(phase = BuilderPhase.GENERATING))
+            },
             enabled = state.promptText.isNotBlank(),
             modifier = Modifier.fillMaxWidth().height(52.dp),
             colors = ButtonDefaults.buttonColors(containerColor = AuraPrimary),
@@ -151,6 +161,7 @@ private fun PhaseA(
 
 @Composable
 private fun PhaseB(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
+    val haptic = LocalHapticFeedback.current
     val statusTexts = listOf("Analysing your context...", "Building the layout...", "Generating content...", "Finalising widget...")
     var statusIdx by remember { mutableStateOf(0) }
 
@@ -205,7 +216,10 @@ private fun PhaseB(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
             Text(statusTexts[idx], style = MaterialTheme.typography.bodyMedium, color = AuraTextSecondary)
         }
         Spacer(Modifier.height(24.dp))
-        TextButton(onClick = { onStateChange(state.copy(phase = BuilderPhase.PROMPT)) }) {
+        TextButton(onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            onStateChange(state.copy(phase = BuilderPhase.PROMPT))
+        }) {
             Text("Cancel", style = MaterialTheme.typography.labelMedium, color = AuraOutline)
         }
     }
@@ -219,6 +233,7 @@ private fun PhaseC(
     onStateChange: (BuilderState) -> Unit,
     onViewDetail: () -> Unit
 ) {
+    val haptic = LocalHapticFeedback.current
     val widget = state.previewWidget ?: FakeData.widgets.first()
     val sizes = listOf("S", "M", "L")
     var selectedSize by remember { mutableStateOf(1) } // M
@@ -230,11 +245,17 @@ private fun PhaseC(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { onStateChange(state.copy(phase = BuilderPhase.PROMPT)) }) {
+            IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onStateChange(state.copy(phase = BuilderPhase.PROMPT))
+            }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
             }
             Text("Preview", style = MaterialTheme.typography.titleMedium, color = AuraTextPrimary, modifier = Modifier.weight(1f))
-            IconButton(onClick = { isDarkPreview = !isDarkPreview }) {
+            IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                isDarkPreview = !isDarkPreview
+            }) {
                 Icon(Icons.Default.Refresh, null, tint = AuraOutline)
             }
         }
@@ -259,7 +280,10 @@ private fun PhaseC(
                     sizes.forEachIndexed { i, s ->
                         if (i == selectedSize) {
                             Button(
-                                onClick = { selectedSize = i },
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    selectedSize = i
+                                },
                                 shape = RoundedCornerShape(16.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = AuraSurfaceHighest),
                                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
@@ -267,7 +291,10 @@ private fun PhaseC(
                             ) { Text(s, style = MaterialTheme.typography.labelMedium, color = AuraTextPrimary) }
                         } else {
                             TextButton(
-                                onClick = { selectedSize = i },
+                                onClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    selectedSize = i
+                                },
                                 shape = RoundedCornerShape(16.dp),
                                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
                             ) { Text(s, style = MaterialTheme.typography.labelMedium, color = AuraOutline) }
@@ -310,7 +337,10 @@ private fun PhaseC(
             Divider(color = AuraOutlineVariant.copy(alpha = 0.3f))
 
             OutlinedButton(
-                onClick = { onStateChange(state.copy(phase = BuilderPhase.GENERATING)) },
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onStateChange(state.copy(phase = BuilderPhase.GENERATING))
+                },
                 modifier = Modifier.fillMaxWidth().height(48.dp),
                 border = BorderStroke(1.dp, AuraOutlineVariant),
                 shape = ShapeButton
@@ -321,7 +351,10 @@ private fun PhaseC(
             }
 
             Button(
-                onClick = { onStateChange(state.copy(phase = BuilderPhase.SIZE)) },
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onStateChange(state.copy(phase = BuilderPhase.SIZE))
+                },
                 modifier = Modifier.fillMaxWidth().height(52.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = AuraPrimary),
                 shape = ShapeButton
@@ -334,6 +367,7 @@ private fun PhaseC(
 
 @Composable
 private fun BuilderSegmentedRow(label: String, options: List<String>, selectedIdx: Int) {
+    val haptic = LocalHapticFeedback.current
     var sel by remember { mutableStateOf(selectedIdx) }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(label, style = MaterialTheme.typography.labelSmall, color = AuraOutline)
@@ -348,7 +382,10 @@ private fun BuilderSegmentedRow(label: String, options: List<String>, selectedId
             options.forEachIndexed { i, opt ->
                 if (i == sel) {
                     Button(
-                        onClick = { sel = i },
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            sel = i
+                        },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = AuraSurfaceHigh),
                         shape = RoundedCornerShape(6.dp),
@@ -357,7 +394,10 @@ private fun BuilderSegmentedRow(label: String, options: List<String>, selectedId
                     ) { Text(opt, style = MaterialTheme.typography.labelMedium, color = AuraTextPrimary) }
                 } else {
                     TextButton(
-                        onClick = { sel = i },
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            sel = i
+                        },
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(6.dp),
                         contentPadding = PaddingValues(vertical = 8.dp)
@@ -372,6 +412,7 @@ private fun BuilderSegmentedRow(label: String, options: List<String>, selectedId
 
 @Composable
 private fun PhaseD(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
+    val haptic = LocalHapticFeedback.current
     var selectedSize by remember { mutableStateOf(WidgetSize.MEDIUM) }
     val sizes = listOf(
         Triple(WidgetSize.SMALL, "Small", "2×1 — compact at-a-glance"),
@@ -382,7 +423,10 @@ private fun PhaseD(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
 
     Column(modifier = Modifier.fillMaxSize().background(AuraBase).padding(24.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 24.dp)) {
-            IconButton(onClick = { onStateChange(state.copy(phase = BuilderPhase.PREVIEW)) }) {
+            IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onStateChange(state.copy(phase = BuilderPhase.PREVIEW))
+            }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
             }
             Text("Size & Layout", style = MaterialTheme.typography.headlineMedium, color = AuraTextPrimary)
@@ -396,7 +440,7 @@ private fun PhaseD(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
                     .clip(ShapeTile)
                     .background(if (isSelected) AuraPrimary.copy(alpha = 0.1f) else AuraSurfaceHigh)
                     .border(1.dp, if (isSelected) AuraPrimary else AuraOutlineVariant.copy(alpha = 0.5f), ShapeTile)
-                    .clickable { selectedSize = size }
+                    .hapticClickable { selectedSize = size }
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -412,7 +456,10 @@ private fun PhaseD(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
 
         Spacer(Modifier.weight(1f))
         Button(
-            onClick = { onStateChange(state.copy(phase = BuilderPhase.BEHAVIOUR, selectedSize = selectedSize)) },
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onStateChange(state.copy(phase = BuilderPhase.BEHAVIOUR, selectedSize = selectedSize))
+            },
             modifier = Modifier.fillMaxWidth().height(52.dp),
             colors = ButtonDefaults.buttonColors(containerColor = AuraPrimary),
             shape = ShapeButton
@@ -426,6 +473,7 @@ private fun PhaseD(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
 
 @Composable
 private fun PhaseE(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
+    val haptic = LocalHapticFeedback.current
     var refreshIdx by remember { mutableStateOf(2) } // Hourly
     var offlineIdx by remember { mutableStateOf(0) } // Last Known
     var allowOrchestration by remember { mutableStateOf(true) }
@@ -439,7 +487,10 @@ private fun PhaseE(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
             .padding(24.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 24.dp)) {
-            IconButton(onClick = { onStateChange(state.copy(phase = BuilderPhase.SIZE)) }) {
+            IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onStateChange(state.copy(phase = BuilderPhase.SIZE))
+            }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
             }
             Text("Behaviour", style = MaterialTheme.typography.headlineMedium, color = AuraTextPrimary)
@@ -483,7 +534,10 @@ private fun PhaseE(state: BuilderState, onStateChange: (BuilderState) -> Unit) {
 
         Spacer(Modifier.height(24.dp))
         Button(
-            onClick = { onStateChange(state.copy(phase = BuilderPhase.CONFIRM, confidenceThreshold = confidenceThreshold)) },
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onStateChange(state.copy(phase = BuilderPhase.CONFIRM, confidenceThreshold = confidenceThreshold))
+            },
             modifier = Modifier.fillMaxWidth().height(52.dp),
             colors = ButtonDefaults.buttonColors(containerColor = AuraPrimary),
             shape = ShapeButton
@@ -503,6 +557,7 @@ private fun PhaseF(
     onAddToDashboard: () -> Unit,
     onDiscard: () -> Unit
 ) {
+    val haptic = LocalHapticFeedback.current
     val widget = state.previewWidget ?: FakeData.widgets.first()
     var widgetName by remember { mutableStateOf(widget.displayName) }
     var showDiscardSheet by remember { mutableStateOf(false) }
@@ -515,7 +570,10 @@ private fun PhaseF(
             .padding(24.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 24.dp)) {
-            IconButton(onClick = { onStateChange(state.copy(phase = BuilderPhase.BEHAVIOUR)) }) {
+            IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onStateChange(state.copy(phase = BuilderPhase.BEHAVIOUR))
+            }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
             }
             Text("Confirm", style = MaterialTheme.typography.headlineMedium, color = AuraTextPrimary)
@@ -568,7 +626,10 @@ private fun PhaseF(
         Spacer(Modifier.height(32.dp))
 
         Button(
-            onClick = onAddToDashboard,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onAddToDashboard()
+            },
             modifier = Modifier.fillMaxWidth().height(52.dp),
             colors = ButtonDefaults.buttonColors(containerColor = AuraPrimary),
             shape = ShapeButton
@@ -579,7 +640,10 @@ private fun PhaseF(
         }
         Spacer(Modifier.height(12.dp))
         TextButton(
-            onClick = { showDiscardSheet = true },
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                showDiscardSheet = true
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Discard widget", style = MaterialTheme.typography.labelMedium, color = AuraRose)

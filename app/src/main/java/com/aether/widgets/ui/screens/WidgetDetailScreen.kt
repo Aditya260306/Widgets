@@ -15,11 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aether.widgets.ui.components.*
 import com.aether.widgets.ui.fake.*
 import com.aether.widgets.ui.theme.*
+import com.aether.widgets.ui.utils.hapticClickable
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,6 +32,7 @@ fun WidgetDetailScreen(
     widgetId: String = "w1",
     onNavigateToBuilder: () -> Unit = {}
 ) {
+    val haptic = LocalHapticFeedback.current
     val widget = FakeData.widgets.find { it.id == widgetId } ?: FakeData.widgets.first()
     val history = FakeData.widgetHistory[widgetId] ?: emptyList()
     val sources = FakeData.dataSources[widgetId] ?: emptyList()
@@ -41,15 +45,22 @@ fun WidgetDetailScreen(
             TopAppBar(
                 title = { Text(widget.displayName, style = MaterialTheme.typography.headlineMedium, color = AuraTextPrimary) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onBack()
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = AuraTextSecondary)
                     }
                 },
                 actions = {
-                    IconButton(onClick = onNavigateToBuilder) {
+                    IconButton(onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onNavigateToBuilder()
+                    }) {
                         Icon(Icons.Default.Edit, null, tint = AuraTextSecondary)
                     }
                     IconButton(onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         if (!isRefreshing) isRefreshing = true
                     }) {
                         if (isRefreshing) {
@@ -161,7 +172,7 @@ fun WidgetDetailScreen(
                         .clip(ShapeTile)
                         .background(if (isCurrent) AuraPrimary.copy(alpha = 0.05f) else AuraSurface)
                         .border(1.dp, if (isCurrent) AuraPrimary.copy(alpha = 0.3f) else AuraOutlineVariant.copy(alpha = 0.3f), ShapeTile)
-                        .clickable { selectedHistoryEntry = entry }
+                        .hapticClickable { selectedHistoryEntry = entry }
                         .padding(16.dp)
                 ) {
                     if (isCurrent) {
